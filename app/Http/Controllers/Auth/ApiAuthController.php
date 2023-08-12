@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Traits\FilesTrait;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -12,13 +14,16 @@ use Illuminate\Support\Facades\Validator;
 
 class ApiAuthController extends Controller
 {
+    use FilesTrait;
     public function handleRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name'         => 'required|string|max:100',
-            'email'        => 'required|email|max:100',
+            'email'        => 'required|email|unique:users,email|max:100',
             'password'     => 'required|confirmed|string|max:50|min:5',
             'phone'        => 'required|string|max:100',
+            'type'=>'required',
+            'image'=>'image'
         ]);
         if ($validator->fails()) {
             $errors = $validator->errors();
@@ -27,13 +32,20 @@ class ApiAuthController extends Controller
         $is_user = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
         if(! $is_user)
         {
+
+            if($request->hasFile('image'))
+            {
+                $imageName = $this->saveFile($request->file('image'),config('filepath.USER_PATH'));
+            }
+            
             $user = User::create([
                 'name'     => $request->name,
                 'email'    => $request->email,
                 'password' => Hash::make($request->password),
                 'phone'    => $request->phone,
                 'access_token' => Str::random(64),
-
+                'image'=>$imageName,
+                'type'=>$request->type
             ]);
             return response()->json([
                 'status'      => 200,
@@ -77,10 +89,11 @@ class ApiAuthController extends Controller
             'access_token' => $new_access_token
         ]);
         $userData = User::where('email', '=', $request->email)->first();
+        $data = new UserResource($userData);
         return response()->json([
             'status'=>200,
             'message'=>'LOGGED IN SUCCESSFULY',
-            'data'=> $userData
+            'data'=> $data
         ]);
     }
     public function logout(Request $request)
