@@ -45,7 +45,8 @@ class ApiAuthController extends Controller
                 'phone'    => $request->phone,
                 'access_token' => Str::random(64),
                 'image'=>$imageName,
-                'type'=>$request->type
+                'type'=>$request->type,
+                'account_type'=>$request->account_type
             ]);
             return response()->json([
                 'status'      => 200,

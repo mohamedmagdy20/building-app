@@ -24,7 +24,9 @@ class User extends Authenticatable
         'phone',
         'access_token',
         'image',
-        'type'
+        'type',
+        'account_type',
+        'points'
     ];
 
     /**

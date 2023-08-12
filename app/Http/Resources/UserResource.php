@@ -22,6 +22,8 @@ class UserResource extends JsonResource
             'phone'=>$this->phone,
             'type'=>$this->type,
             'access_token'=>$this->access_token,
+            'account_type'=>$this->account_type,
+            'point'=>$this->point,
             'created_at'=>Carbon::parse($this->created_at)->format('Y M D'),
             'updated_at'=>Carbon::parse($this->updated_at)->format('Y M D'),
         ];

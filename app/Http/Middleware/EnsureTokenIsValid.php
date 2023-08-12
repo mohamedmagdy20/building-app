@@ -18,14 +18,14 @@ class EnsureTokenIsValid
     public function handle(Request $request, Closure $next)
     {
         // return $next($request);
-        if($request->header('access_token'))
+        if($request->access_token)
         {
-           if($request->header('access_token') !== null)
+           if($request->access_token !== null)
            {
-               $user = User::where('access_token', $request->header('access_token'))->first();
+               $user = User::where('access_token',$request->access_token)->first();
                if($user !== null)
                {
-               return $next($request);
+                  return $next($request,$user);
                }
                else
                {
