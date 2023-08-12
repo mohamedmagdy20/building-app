@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ use App\Http\Middleware\EnsureTokenIsValid;
 Route::post('/handle-register', [ApiAuthController::class,'handleRegister']);
 Route::post('/handle-login', [ApiAuthController::class,'handleLogin']);
 Route::get('plan',[ProfileController::class,'index']);
+Route::get('category',[CategoryController::class,'index']);
 Route::middleware([EnsureTokenIsValid::class])->group(function () {
     Route::post('/logout',[ApiAuthController::class,'logout']);
     Route::group(['controller'=>ProfileController::class,'prefix'=>'profile'],function(){

@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use Shetabit\Visitor\Traits\Visitable;
 class ApiAuthController extends Controller
 {
     use FilesTrait;
@@ -75,9 +75,11 @@ class ApiAuthController extends Controller
         }
 
         $is_user = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
-        
+
         if(! $is_user)
         {
+            // visitor()->visit();
+
             return response()->json([
                 'status'=> 404,
                 'message'=> "credentials are not correct",
