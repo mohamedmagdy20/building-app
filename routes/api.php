@@ -23,6 +23,7 @@ Route::post('/handle-register', [ApiAuthController::class,'handleRegister']);
 Route::post('/handle-login', [ApiAuthController::class,'handleLogin']);
 Route::get('plan',[ProfileController::class,'index']);
 Route::get('category',[CategoryController::class,'index']);
+Route::get('city',[CategoryController::class,'city']);
 Route::middleware([EnsureTokenIsValid::class])->group(function () {
     Route::post('/logout',[ApiAuthController::class,'logout']);
     Route::group(['controller'=>ProfileController::class,'prefix'=>'profile'],function(){

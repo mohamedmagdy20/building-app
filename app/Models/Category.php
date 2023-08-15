@@ -10,6 +10,18 @@ class Category extends Model
     use HasFactory;
     protected $fillable = [
         'name_en',
-        'name_ar'
+        'name_ar',
+        'type'
     ];
+
+    public function scopeFilter($query, $params)
+    {
+        if(isset($params['type']))
+        {
+            $query->whereIn('type',[$params['type'],'both']);
+        }
+        return $query;
+    }
+
+
 }
