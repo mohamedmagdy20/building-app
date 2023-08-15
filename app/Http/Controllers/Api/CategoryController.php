@@ -19,7 +19,7 @@ class CategoryController extends Controller
     }
     public function index(Request $request)
     {
-        return CategoryResource::collection($this->model->filter($request->type)->get());
+        return CategoryResource::collection($this->model->filter($request->all())->get());
     }
 
     public function city()

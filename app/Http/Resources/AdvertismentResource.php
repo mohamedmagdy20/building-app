@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Shetabit\Visitor\Traits\Visitable;
 class AdvertismentResource extends JsonResource
 {
     /**
@@ -29,9 +29,12 @@ class AdvertismentResource extends JsonResource
             'house_number'=>$this->house_number,
             'price'=>$this->price,
             'type'=>$this->type,
-            'abrove'=>$this->abrove,
-            'images'=>$this->adsImage,
-            'views'=>$this->visitLogs()->count()
+            'ads_type'=>$this->ads_type,
+            'abroved'=>$this->abroved,
+            'images'=>AdvertismantImages::collection($this->adsImage),
+            'views'=> 0
         ];
     }
+
+  
 }

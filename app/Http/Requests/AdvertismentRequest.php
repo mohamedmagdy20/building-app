@@ -26,10 +26,21 @@ class AdvertismentRequest extends FormRequest
     public function rules()
     {
         return [
-            //
-            // 'category_id'=>'required',
-            // 'city_id'=>'required',
-            
+            'category_id'=>'required',
+            'city_id'=>'required',
+            'address'=>'nullable|string',
+            'area'=>'nullable|string',
+            'piece'=>'nullable|string',
+            'street'=>'nullable|string',
+            'gha'=>'nullable|string',
+            'number'=>'nullable',
+            'floor'=>'nullable',
+            'house_number'=>'nullable',
+            'price'=>'required',
+            'type'=>'required',
+            'image'=>'required|array',
+            'ads_type'=>'required',
+            'access_token'=>'required'
         ];
     }
 

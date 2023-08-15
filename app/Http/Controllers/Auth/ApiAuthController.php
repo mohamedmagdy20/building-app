@@ -91,7 +91,7 @@ class ApiAuthController extends Controller
         $user->update([
             'access_token' => $new_access_token
         ]);
-        $userData = User::where('email', '=', $request->email)->first();
+        $userData = User::where('email', '=', $request->email)->with('plan')->first();
         $data = new UserResource($userData);
         return response()->json([
             'status'=>200,

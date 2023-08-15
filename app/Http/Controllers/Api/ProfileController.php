@@ -57,7 +57,7 @@ class ProfileController extends Controller
     // public function 
     public function index(Request $request)
     {
-        $data = Plan::filter($request->get('is_permium'))->get();
+        $data = Plan::filter($request->all())->get();
         return response()->json(
             [
                 'data'=>PlanResource::collection($data),
