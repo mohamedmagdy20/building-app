@@ -16,9 +16,22 @@ class Category extends Model
 
     public function scopeFilter($query, $params)
     {
-        if(isset($params['type']))
+        if(isset($params['type']) )
         {
-            $query->whereIn('type',[$params['type'],'both']);
+            if($params['type'] == 1)
+            {
+                $query->where('type','residential');
+            }
+
+            if($params['type'] == 2)
+            {
+                $query->where('type','commercial');
+            }
+
+            if($params['type'] == 3)
+            {
+                $query->where('type','lands');
+            }
         }
         return $query;
     }

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CityResource;
+use App\Models\Area;
 use App\Models\Category;
-use App\Models\City;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -24,6 +24,6 @@ class CategoryController extends Controller
 
     public function city()
     {
-        return CityResource::collection(City::all());
+        return CityResource::collection(Area::all());
     }
 }

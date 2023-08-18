@@ -10,20 +10,23 @@ class Advertisment extends Model
     use HasFactory;
     protected $table = 'advertisments';
     protected $fillable = 
-    [
+[
         'category_id',
-        'address',
-        'area',
-        'piece',
-        'street',
-        'gha',
-        'number',
-        'floor',
-        'house_number',
-        'city_id',
-        'price',
-        'type',
         'user_id',
+        'area_id',
+        'price',
+        'advantages',
+        'links',
+        'description',
+        'space',
+        'location',
+        'number',
+        'num_of_rooms',
+        'num_of_lounges',
+        'num_of_bath',
+        'num_of_apartments',
+        'num_of_floor',
+        'type',
         'abroved',
         'ads_type'
     ];
@@ -38,9 +41,9 @@ class Advertisment extends Model
         return $this->belongsTo(User::class,'user_id');
     }
 
-    public function city()
+    public function area()
     {
-        return $this->belongsTo(City::class,'city_id');
+        return $this->belongsTo(Area::class,'area_id');
     }
 
     public function category()
@@ -65,16 +68,15 @@ class Advertisment extends Model
         $query->where('ads_type','special');   
     }
 
-
     public function scopeFilter($query, $params)
     {
         if(isset($params['category_id']))
         {
             $query->where('category_id',$params['category_id']);
         }
-        if(isset($params['city_id']))
+        if(isset($params['area_id']))
         {
-            $query->where('city_id',$params['city_id']);
+            $query->where('area_id',$params['area_id']);
         }
 
         if(isset($params['type']))

@@ -17,14 +17,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->string('address')->nullable();
-            $table->string('area')->nullable();
-            $table->string('piece')->nullable();
-            $table->string('street')->nullable();
-            $table->string('gha')->nullable();
             $table->string('number')->nullable();
-            $table->string('floor')->nullable();
-            $table->string('house_number')->nullable();
+            $table->string('advantages')->nullable();
+            $table->string('links')->nullable();
+            $table->text('description')->nullable();
+            $table->string('space')->nullable();
+            $table->string('location')->nullable();
             $table->timestamps();
         });
     }

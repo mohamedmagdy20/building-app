@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdvertismentRequest;
 use App\Http\Resources\AdvertismentResource;
+use App\Http\Resources\ArchitectureResource;
+use App\Http\Resources\CommercialResource;
+use App\Http\Resources\LandResource;
+use App\Http\Resources\ResidentialResource;
 use App\Models\Advertisment;
 use App\Models\AdvertismentImage;
 use App\Traits\FilesTrait;
@@ -26,6 +30,15 @@ class AdvertismentController extends Controller
     public function store(AdvertismentRequest $request)
     {
         $data = $request->validated();
+        if($request->location)
+        {
+            $data['location'] = implode(',',$request->location);
+        }
+        if($request->advantages)
+        {
+            $data['advantages'] = implode(',',$request->advantages);
+        }
+        
         try{
             DB::beginTransaction();
             $ads =$this->model->create(array_merge($data,['user_id'=>$this->auth($request->access_token)->id]));
@@ -53,14 +66,27 @@ class AdvertismentController extends Controller
 
     public function show(Request $request)
     {
-        $data = $this->model->find($request->get('id'));
+        $data = $this->model->with('category')->find($request->get('id'));
         if($data)
         {
+            if($data->category->type == 'residential')
+            {
+                $resources = new ResidentialResource($data);
+            }elseif($data->category->type == 'commercial')
+            {
+                $resources = new CommercialResource($data);   
+            }elseif($data->category->type == 'lands')
+            {
+                $resources = new LandResource($data);   
+            }elseif($data->category->name_en == 'Architecture')
+            {
+                $resources = new ArchitectureResource($data);
+            }
             return response()->json(
                 [
                     'status'=>200,
                     'message'=>'Success',
-                    'data'=> new AdvertismentResource($data)
+                    'data'=> $resources
                 ]
             );
         }else{

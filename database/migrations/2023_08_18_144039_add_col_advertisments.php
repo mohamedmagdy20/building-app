@@ -14,12 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::table('advertisments', function (Blueprint $table) {
-            $table->unsignedBigInteger('area_id')->after('category_id');
-            $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade');
-            $table->double('price')->default(0);
-            $table->enum('type',['rent','sale'])->nullable();
-            $table->boolean('abroved')->default(false);
-
+            $table->string('num_of_rooms')->nullable();
+            $table->string('num_of_lounges')->nullable();
+            $table->string('num_of_bath')->nullable();
+            $table->string('num_of_apartments')->nullable();
+            $table->string('num_of_floor')->nullable();            
         });
     }
 
