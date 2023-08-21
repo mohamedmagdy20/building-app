@@ -9,6 +9,7 @@ use App\Http\Resources\ArchitectureResource;
 use App\Http\Resources\CommercialResource;
 use App\Http\Resources\LandResource;
 use App\Http\Resources\ResidentialResource;
+use App\Models\AdsFavorite;
 use App\Models\Advertisment;
 use App\Models\AdvertismentImage;
 use App\Traits\FilesTrait;
@@ -22,9 +23,11 @@ class AdvertismentController extends Controller
     use FilesTrait;
     protected $model;
     protected $modelImage;
-    public function __construct(Advertisment $model , AdvertismentImage $modelImage)
+    protected $adsFavorite;
+    public function __construct(Advertisment $model , AdvertismentImage $modelImage, AdsFavorite $adsFavorite)
     {
         $this->model = $model;
+        $this->adsFavorite=  $adsFavorite;
         $this->modelImage =$modelImage;
     }
     public function store(AdvertismentRequest $request)
@@ -143,6 +146,28 @@ class AdvertismentController extends Controller
         ], 200);
     }
 
+
+
+    public function addFavorate(Request $request)
+    {
+        $ads = $this->adsFavorite->create(['user_id'=>$this->auth($request->access_token)->id,'advertisment_id'=>$request->id]);
+        return response()->json([
+            'status'=>200,
+            'message'=>'Success',
+            'data'=>null
+        ], 200);
+    }
+
+    public function favoriteAds(Request $request)
+    {
+        $IDs = $this->adsFavorite->where('user_id',$this->auth($request->access_token))->pluck('advertisment_id');
+        $data =  $this->model->whereIn('id',$IDs)->get();
+        return response()->json([
+            'status'=>200,
+            'message'=>'Success',
+            'data'=>AdvertismentResource::collection($data)
+        ], 200);
+    }
 
     // private function AdsImageLinks($images)
     // {

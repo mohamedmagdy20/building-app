@@ -43,6 +43,8 @@ Route::middleware([EnsureTokenIsValid::class])->group(function () {
 
     Route::group(['controller'=>AdvertismentController::class,'prefix'=>'advertisment'],function(){
         Route::post('store','store');
+        Route::get('favourite','favoriteAds');
+        Route::post('add-favourite','addFavorate');
     });
 
 
