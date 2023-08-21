@@ -42,7 +42,12 @@ class AdvertismentRequest extends FormRequest
             'num_of_floor'=>'nullable',
             'type'=>'required|string',
             'ads_type'=>'required',
-            'access_token'=>'required'
+            'access_token'=>'required',
+            'image_1'=>'nullable|file',
+            'image_2'=>'nullable|file',
+            'image_3'=>'nullable|file',
+            'image_4'=>'nullable|file',
+            'image_5'=>'nullable|file',
         ];
     }
 

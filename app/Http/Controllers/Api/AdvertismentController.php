@@ -30,21 +30,44 @@ class AdvertismentController extends Controller
     public function store(AdvertismentRequest $request)
     {
         $data = $request->validated();
-        if($request->location)
-        {
-            $data['location'] = implode(',',$request->location);
-        }
-        if($request->advantages)
-        {
-            $data['advantages'] = implode(',',$request->advantages);
-        }
-        
+        return $data;
         try{
             DB::beginTransaction();
             $ads =$this->model->create(array_merge($data,['user_id'=>$this->auth($request->access_token)->id]));
-            foreach($request->file('image') as $image)
+            // foreach($request->file('image') as $image)
+            // {
+            //     $imageName = $this->saveFile($image,config('filepath.ADS_PATH'));
+            //     $this->modelImage->create(['advertisment_id'=>$ads->id,'image'=>$imageName]);
+            // }
+            if($request->hasFile('image_1'))
             {
-                $imageName = $this->saveFile($image,config('filepath.ADS_PATH'));
+                $imageName = $this->saveFile($request->file('image_1'),config('filepath.ADS_PATH'));
+                return $imageName;
+                $this->modelImage->create(['advertisment_id'=>$ads->id,'image'=>$imageName]);
+            }
+
+            if($request->hasFile('image_2'))
+            {
+                $imageName = $this->saveFile($request->file('image_2'),config('filepath.ADS_PATH'));
+                $this->modelImage->create(['advertisment_id'=>$ads->id,'image'=>$imageName]);
+            }
+
+            if($request->hasFile('image_3'))
+            {
+                $imageName = $this->saveFile($request->file('image_3'),config('filepath.ADS_PATH'));
+                $this->modelImage->create(['advertisment_id'=>$ads->id,'image'=>$imageName]);
+            }
+
+            
+            if($request->hasFile('image_4'))
+            {
+                $imageName = $this->saveFile($request->file('image_4'),config('filepath.ADS_PATH'));
+                $this->modelImage->create(['advertisment_id'=>$ads->id,'image'=>$imageName]);
+            }
+
+            if($request->hasFile('image_5'))
+            {
+                $imageName = $this->saveFile($request->file('image_5'),config('filepath.ADS_PATH'));
                 $this->modelImage->create(['advertisment_id'=>$ads->id,'image'=>$imageName]);
             }
             DB::commit();
