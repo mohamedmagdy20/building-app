@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +31,32 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
     })->name('admin.home');
     
     Route::get('logout',[AuthController::class,'logout'])->name('admin.logout');
+
+    Route::group(['controller'=>AdminController::class,'prefix'=>'admins'],function () {
+        $prefix = 'admin.users.';
+
+        Route::get('','index')->name($prefix.'index');
+        Route::get('/create','create')->name($prefix.'create');
+        Route::get('{id}/edit','edit')->name($prefix.'edit');
+        Route::get('delete/{id}','delete')->name($prefix.'delete');
+        Route::post('/store','store')->name($prefix.'store');
+        Route::post('{id}/update','update')->name($prefix.'update');
+    });
+    
+
+    Route::group(['controller'=>RoleController::class,'prefix'=>'roles'],function () {
+        $prefix = 'admin.';
+        Route::get('','index')->name($prefix.'role.index');
+    });
+
+
+    Route::group(['controller'=>PermissionController::class,'prefix'=>'permissions'],function () {
+        $prefix = 'admin.';
+        Route::get('{id}/','index')->name($prefix.'permission.index');
+        Route::post('{id}/update','update')->name($prefix.'permission.update');    
+    });
+
+
     
 });
 

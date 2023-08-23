@@ -39,7 +39,6 @@
 
     {{-- Toster --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
 </head>
 
@@ -139,5 +138,31 @@
         </script>
     @endif
 
+    
+    @if (Session::has('info'))
+        <script>
+            toastr.info('{{ Session::get('info') }}', 'info');
+        </script>
+    @endif
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+    <script type="text/javascript">
+    $('.delete-confirm').on('click', function (e) {
+        e.preventDefault();
+        const url = $(this).attr('href');
+        swal({
+            title: 'Are you sure?',
+            text: 'This record and it`s details will be permanantly deleted!',
+            icon: 'warning',
+            buttons: ["Cancel", "Yes!"],
+        }).then(function(value) {
+            if (value) {
+                toastr.info('Process', 'Operation On Process');
+                window.location.href = url;
+            }
+        });
+    });
+
+</script>
     @yield('scripts')
 </body>

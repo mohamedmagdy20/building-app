@@ -5,10 +5,10 @@
         <!-- User details -->
         <div class="user-profile text-center mt-3">
             <div class="">
-                <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-md rounded-circle">
+                <img src="{{asset('assets/images/users/person.jpg')}}" alt="" class="avatar-md rounded-circle">
             </div>
             <div class="mt-3">
-                <h4 class="font-size-16 mb-1">Julia Hudda</h4>
+                <h4 class="font-size-16 mb-1">{{auth('admin')->user()->name}}</h4>
                 <span class="text-muted"><i class="ri-record-circle-line align-middle font-size-14 text-success"></i>
                     Online</span>
             </div>
@@ -28,12 +28,19 @@
                 </li>
 
                 <li>
-                    <a href="calendar.html" class=" waves-effect">
-                        <i class="ri-calendar-2-line"></i>
-                        <span>Calendar</span>
+                    <a href="{{route('admin.users.index')}}" class=" waves-effect">
+                        <i class="fa fa-user"></i>
+                        <span>Admins</span>
                     </a>
                 </li>
 
+                <li>
+                    <a href="{{route('admin.role.index')}}" class=" waves-effect">
+                        <i class="ri-account-circle-line"></i>
+                        <span>Roles</span>
+                    </a>
+                </li>
+{{-- 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-mail-send-line"></i>
@@ -231,7 +238,7 @@
                             </ul>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
 
             </ul>
         </div>

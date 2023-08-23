@@ -6,6 +6,7 @@ use App\Models\Admin;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class AdminSeeder extends Seeder
 {
@@ -17,10 +18,13 @@ class AdminSeeder extends Seeder
     public function run()
     {
         //
-        Admin::create([
+        $admin =  Admin::create([
             'name'=>'Admin',
             'email'=>'admin@admin.com',
             'password'=>Hash::make(123456)
         ]);
+        $role = Role::where('name','SuperAdmin')->first();
+
+        $admin->assignRole($role);
     }
 }

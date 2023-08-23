@@ -20,7 +20,7 @@ class AuthController extends Controller
         $data = $request->validated();
         if(Auth::guard('admin')->attempt($data))
         {
-            return redirect()->route('admin.home')->with('error','Invaild Email or Password');
+            return redirect()->route('admin.home')->with('success','Welcome');
         }else{
             return redirect()->back()->with('error','Invaild Email or Password');
         }
