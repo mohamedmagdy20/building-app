@@ -23,7 +23,7 @@ class ApiAuthController extends Controller
             'password'     => 'required|confirmed|string|max:50|min:5',
             'phone'        => 'required|string|max:100',
             'type'=>'required',
-            'image'=>'image'
+            'image'=>'file'
         ]);
         if ($validator->fails()) {
             $errors = $validator->errors();
@@ -32,22 +32,16 @@ class ApiAuthController extends Controller
         $is_user = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
         if(! $is_user)
         {
+            $data=  $request->all();
 
             if($request->hasFile('image'))
             {
-                $imageName = $this->saveFile($request->file('image'),config('filepath.USER_PATH'));
+                $data['image'] = $this->saveFile($request->file('image'),config('filepath.USER_PATH'));
             }
+            $data['password'] = Hash::make($request->password);
+            $data['access_token'] =Str::random(64); 
             
-            $user = User::create([
-                'name'     => $request->name,
-                'email'    => $request->email,
-                'password' => Hash::make($request->password),
-                'phone'    => $request->phone,
-                'access_token' => Str::random(64),
-                'image'=>$imageName,
-                'type'=>$request->type,
-                'account_type'=>$request->account_type
-            ]);
+            $user = User::create($data);
             return response()->json([
                 'status'      => 200,
                 'message'     => $request->name . ' ' .'added succesfully',

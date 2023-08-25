@@ -26,6 +26,7 @@ class AdvertismentRequest extends FormRequest
     public function rules()
     {
         return [
+            'title'=>'required|string',
             'category_id'=>'required',
             'area_id'=>'required',
             'price'=>'required',

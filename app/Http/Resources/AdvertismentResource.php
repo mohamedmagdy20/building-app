@@ -16,10 +16,12 @@ class AdvertismentResource extends JsonResource
     {
         return [
             'id'=>$this->id,
+            'title'=>$this->title,
             'category'=>$request->header('lang')=='en' ? $this->category->name_en : $this->category->name_ar ,
             'area'=>$request->header('lang')=='en' ? $this->area->name_en : $this->area->name_ar,
             'price'=>$this->price,
-            'image'=> $this->adsImage[0]->image !=null ?  asset('uploads/ads/'.$this->adsImage[0]->image) : asset('assets/images/logo-sm.png')
+            'image'=> $this->adsImage[0]->image !=null ?  asset('uploads/ads/'.$this->adsImage[0]->image) : asset('assets/images/logo-sm.png'),
+            'profile_image' => $this->user->image !=null ? asset('uploads/users/'.$this->user->image) : asset('assets/images/logo-sm.png') 
         ];
     }
 

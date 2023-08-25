@@ -18,6 +18,7 @@ class LandResource extends JsonResource
         return [
 
             'id'=>$this->id,
+            'title'=>$this->title,
             'user'=>$this->user->name,
             'category'=>$request->header('lang')=='en' ? $this->category->name_en : $this->category->name_ar ,
             'area'=>$request->header('lang')=='en' ? $this->area->name_en : $this->area->name_ar,
@@ -32,7 +33,6 @@ class LandResource extends JsonResource
             'abroved'=>$this->abroved,
             'images'=>AdvertismantImages::collection($this->adsImage),
             'date_created'=>Carbon::parse($this->created_at)->format('M d Y'),
-
             'views'=> 0
         ];
         
