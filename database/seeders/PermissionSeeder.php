@@ -33,6 +33,19 @@ class PermissionSeeder extends Seeder
                 'name'=>'Delete_Admins',
                 'guard_name'=>'admin'
             ],
+            [
+                'name'=>'Show_Roles',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Show_Permission',
+                'guard_name'=>'admin'
+            ],
+
+            [
+                'name'=>'Edit_Permission',
+                'guard_name'=>'admin'
+            ],
 
         ];
 

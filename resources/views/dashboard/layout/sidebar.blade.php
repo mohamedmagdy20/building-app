@@ -36,8 +36,17 @@
 
                 <li>
                     <a href="{{route('admin.role.index')}}" class=" waves-effect">
-                        <i class="ri-account-circle-line"></i>
+                        <i class="ri-bar-chart-line"></i>
                         <span>Roles</span>
+                    </a>
+                </li>
+
+
+                
+                <li>
+                    <a href="{{route('admin.user.index')}}" class=" waves-effect">
+                        <i class="ri-account-circle-line"></i>
+                        <span>Users</span>
                     </a>
                 </li>
 {{-- 

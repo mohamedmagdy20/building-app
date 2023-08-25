@@ -5,8 +5,8 @@
 
         <div class="text-center mt-4">
             <div class="mb-3">
-                <img src="{{ asset('assets/images/logo-dark.png') }}" height="30" class="logo-dark mx-auto" alt="">
-                <img src="{{ asset('assets/images/logo-light.png') }}" height="30" class="logo-light mx-auto"
+                <img src="{{ asset('assets/images/main_logo.jpeg') }}" height="30" class="logo-dark mx-auto" alt="">
+                <img src="{{ asset('assets/images/main_logo.jpeg') }}" height="30" class="logo-light mx-auto"
                     alt="">
 
             </div>

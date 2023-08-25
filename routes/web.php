@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,6 +55,14 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
         $prefix = 'admin.';
         Route::get('{id}/','index')->name($prefix.'permission.index');
         Route::post('{id}/update','update')->name($prefix.'permission.update');    
+    });
+
+    Route::group(['controller'=>UserController::class,'prefix'=>'users'],function () {
+        $prefix = 'admin.user';
+        Route::get('/','index')->name($prefix.'.index');
+        Route::get('data','data')->name($prefix.'.data');
+        Route::get('delete/{id}','delete')->name($prefix.'.delete');    
+        Route::get('show/{id}','show')->name($prefix.'.show');    
     });
 
 
