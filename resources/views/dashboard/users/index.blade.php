@@ -59,7 +59,7 @@
 let DataTable = null
 function DataTables() {
     var url = "{{ route('admin.user.data') }}";
-    TransactionsTable = $("#datatable-buttons").DataTable({
+    DataTable = $("#datatable-buttons").DataTable({
         processing: true,
         serverSide: true,
         dom: 'Blfrtip',
@@ -130,6 +130,45 @@ function DataTables() {
 $(function() {
     DataTables();
 });
+
+function updatePoints(id)
+{
+    points = $("#points").val()
+    $.ajax({
+        type: 'GET',
+        url: "{{route('admin.user.update-points')}}",
+        data: {id:id,points:points},
+        dataType: 'JSON',
+        success: function (results) {
+            toastr.success('Points Updated', 'success');
+            DataTable.ajax.reload()
+        },
+        error:function(result){
+            console.log(result);
+            toastr.error('Error Accure', 'Error');  
+
+        }
+    });
+}
+
+function toggleData(id)
+{
+    $.ajax({
+        type: 'GET',
+        url: "{{route('admin.user.delete')}}",
+        data: {id:id},
+        dataType: 'JSON',
+        success: function (results) {
+            toastr.success('User Updated', 'success');
+            DataTable.ajax.reload()
+        },
+        error:function(result){
+            console.log(result);
+            toastr.error('Error Accure', 'Error');  
+
+        }
+    });
+}
 
 </script>
 @endsection

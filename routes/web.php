@@ -61,9 +61,13 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
         $prefix = 'admin.user';
         Route::get('/','index')->name($prefix.'.index');
         Route::get('data','data')->name($prefix.'.data');
-        Route::get('delete/{id}','delete')->name($prefix.'.delete');    
-        Route::get('show/{id}','show')->name($prefix.'.show');    
+        Route::get('delete','toggleActive')->name($prefix.'.delete');    
+        Route::get('force-delete/{id}','delete')->name($prefix.'.force.delete');    
+
+        Route::get('show/{id}','show')->name($prefix.'.show');  
+        Route::get('update-points','updatePoints')->name($prefix.'.update-points');  
     });
+    
 
 
     

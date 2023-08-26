@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('advertisments', function (Blueprint $table) {
             //
-            $table->enum('ads_type',['normal','special','fixed'])->default('normal');
+            $table->enum('ads_type',['normal','special','fixed','draft'])->default('normal');
         });
     }
 

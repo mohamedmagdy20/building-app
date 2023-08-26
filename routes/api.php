@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AdvertismentController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\DraftController;
 use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Http\Request;
@@ -48,6 +49,11 @@ Route::middleware([EnsureTokenIsValid::class])->group(function () {
     });
 
     Route::get('advertisment/favourite',[AdvertismentController::class,'favoriteAds']);
+
+    Route::group(['controller'=>DraftController::class,'prefix'=>'draft'],function(){
+        Route::get('/','index');
+        Route::post('/update','update');
+    });
 
 });
 

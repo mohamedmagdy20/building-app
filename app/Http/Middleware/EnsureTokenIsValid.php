@@ -30,31 +30,31 @@ class EnsureTokenIsValid
                else
                {
                return response()->json( [
-                   'status'  => '404',
+                   'status'  => '403',
                    "message" => "This Access Token Is Not Correct",
                    'data'   => NULL
 
-               ]);
+               ],403);
                }
            }
            else
            {
            return response()->json([
-               'status'  => '404',
+               'status'  => '400',
                "message" => "This Access Token Is Empty",
                'data'   => NULL
 
-           ]);
+           ],400);
            }
         }
         else
         {
         return response()->json([
-           'status'  => '404',
+           'status'  => '403',
            "message" => "There Is No Access Token ",
            'data'   => NULL
 
-        ]);
+        ],403);
         }
     }
 }

@@ -99,10 +99,10 @@ class ApiAuthController extends Controller
         $user = User::where('access_token', $access_token)->first();
         if($user == null) {
             return response()->json([
-                'status'=> '404',
+                'status'=> '403',
                 'message'=> 'This Token Are Not Correct',
                 'data'=> NULL
-            ]);
+            ],403);
         }
         $user->update([
             'access_token' => NULL

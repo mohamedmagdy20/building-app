@@ -12,6 +12,7 @@ use App\Http\Resources\ResidentialResource;
 use App\Models\AdsFavorite;
 use App\Models\Advertisment;
 use App\Models\AdvertismentImage;
+use App\Models\Draft;
 use App\Traits\FilesTrait;
 use Exception;
 use Illuminate\Http\Request;
@@ -36,16 +37,12 @@ class AdvertismentController extends Controller
         return $data;
         try{
             DB::beginTransaction();
+
             $ads =$this->model->create(array_merge($data,['user_id'=>$this->auth($request->access_token)->id]));
-            // foreach($request->file('image') as $image)
-            // {
-            //     $imageName = $this->saveFile($image,config('filepath.ADS_PATH'));
-            //     $this->modelImage->create(['advertisment_id'=>$ads->id,'image'=>$imageName]);
-            // }
+            
             if($request->hasFile('image_1'))
             {
                 $imageName = $this->saveFile($request->file('image_1'),config('filepath.ADS_PATH'));
-                return $imageName;
                 $this->modelImage->create(['advertisment_id'=>$ads->id,'image'=>$imageName]);
             }
 
@@ -59,9 +56,7 @@ class AdvertismentController extends Controller
             {
                 $imageName = $this->saveFile($request->file('image_3'),config('filepath.ADS_PATH'));
                 $this->modelImage->create(['advertisment_id'=>$ads->id,'image'=>$imageName]);
-            }
-
-            
+            }     
             if($request->hasFile('image_4'))
             {
                 $imageName = $this->saveFile($request->file('image_4'),config('filepath.ADS_PATH'));
@@ -73,6 +68,7 @@ class AdvertismentController extends Controller
                 $imageName = $this->saveFile($request->file('image_5'),config('filepath.ADS_PATH'));
                 $this->modelImage->create(['advertisment_id'=>$ads->id,'image'=>$imageName]);
             }
+
             DB::commit();
             return response()->json([
                 'status'=>200,
@@ -161,7 +157,7 @@ class AdvertismentController extends Controller
     public function favoriteAds(Request $request)
     {
         $IDs = $this->adsFavorite->where('user_id',$this->auth($request->access_token))->pluck('advertisment_id');
-        $data =  $this->model->whereIn('id',$IDs)->get();
+        $data =  $this->model->whereIn('id',$IDs)->simplePaginate(7);
         return response()->json([
             'status'=>200,
             'message'=>'Success',
