@@ -59,6 +59,15 @@
                         <span style="margin-left: 4px">Advertise</span>
                     </a>
                 </li>
+
+
+                 
+                <li>
+                    <a href="{{route('admin.setting.index')}}" class=" waves-effect">
+                        <i class="ri-account-circle-line"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
                 
 {{-- 
                 <li>

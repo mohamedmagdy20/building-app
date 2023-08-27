@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -82,6 +83,11 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
     Route::get('/delete/{id}','DeletetaskAdvertise')->name($prefix.'delete');
     });
     /** --------------------------------------------------------------- **/
+
+    Route::group(['controller'=>SettingController::class,'prefix'=>'settings'],function(){
+        Route::get('/','index')->name('admin.setting.index');
+        Route::post('update','update')->name('admin.setting.update');
+    });
 
     
 });

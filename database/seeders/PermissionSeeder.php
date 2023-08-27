@@ -47,6 +47,34 @@ class PermissionSeeder extends Seeder
                 'guard_name'=>'admin'
             ],
 
+            [
+                'name'=>'Show_Users',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Delete_User',
+                'guard_name'=>'admin'
+            ],
+
+            [
+                'name'=>'Show_Advertises',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Add_Advertises',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Edit_Advertises',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Delete_Advertises',
+                'guard_name'=>'admin'
+            ],
+
+
+
         ];
 
         foreach($data as $d)

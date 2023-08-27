@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ApiAuthController;
+use App\Http\Controllers\SettingController;
 use App\Http\Middleware\EnsureTokenIsValid;
 
 /*
@@ -27,6 +28,7 @@ Route::post('/handle-login', [ApiAuthController::class,'handleLogin']);
 Route::get('plan',[ProfileController::class,'index']);
 Route::get('category',[CategoryController::class,'index']);
 Route::get('city',[CategoryController::class,'city']);
+Route::get('splach',[SettingController::class,'getSplach']);
 
 Route::get('advertisment/show',[AdvertismentController::class,'show']);
 Route::get('advertisment',[AdvertismentController::class,'index']);
