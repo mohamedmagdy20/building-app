@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdvertiseController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
@@ -67,8 +68,20 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
         Route::get('show/{id}','show')->name($prefix.'.show');  
         Route::get('update-points','updatePoints')->name($prefix.'.update-points');  
     });
-    
 
+    
+    /** ----------------------Advertisements-------------------------- **/
+    Route::group(['controller'=>AdvertiseController::class,'prefix'=>'advertises'],function () {
+        /* Route For Advertisements Module */
+        $prefix = 'admin.Advertise.';
+    Route::get('',       'AllAdvertise')->name($prefix.'index');
+    Route::get('/create',     'AddAdvertise')->name($prefix.'create');
+    Route::post('/store',      'storeAdvertise')->name($prefix.'store');
+    Route::get('/edit/{id}',  'EditAdvertise')->name($prefix.'edit');
+    Route::post('/update/{id}','updateAdvertise')->name($prefix.'update');
+    Route::get('/delete/{id}','DeletetaskAdvertise')->name($prefix.'delete');
+    });
+    /** --------------------------------------------------------------- **/
 
     
 });

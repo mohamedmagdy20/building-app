@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdvertiseController;
 use App\Http\Controllers\Api\AdvertismentController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\DraftController;
@@ -54,6 +55,14 @@ Route::middleware([EnsureTokenIsValid::class])->group(function () {
         Route::get('/','index');
         Route::post('/update','update');
     });
+
+    /** ----------------------Advertisements--------------------------**/
+    Route::group(['controller'=>AdvertiseController::class,'prefix'=>'advertise'],function () {
+        /* Route For Advertisements Module */
+        Route::get('/','AllAdvertises');
+    });
+    /** --------------------------------------------------------------- **/
+
 
 });
 
