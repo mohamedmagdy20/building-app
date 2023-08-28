@@ -18,19 +18,45 @@ class Category extends Model
     {
         if(isset($params['type']) )
         {
-            if($params['type'] == 1)
-            {
-                $query->where('type','residential');
-            }
+            switch ($params['type']) {
+                case 1:
+                    $query->where('type','residential');
+                break;
+                case 2:
+                    $query->where('type','commercial_units');
+                break;
 
-            if($params['type'] == 2)
-            {
-                $query->where('type','commercial');
-            }
+                case 3:
+                    $query->where('type','commercial');
+                break;
 
-            if($params['type'] == 3)
-            {
-                $query->where('type','lands');
+                
+                case 4:
+                    $query->where('type','investment');
+                break;
+
+                
+                case 5:
+                    $query->where('type','industrial');
+                break;
+
+                case 6:
+                    $query->where('type','chalet');
+                break;
+
+                
+                case 7:
+                    $query->where('type','farm');
+                break;
+
+                
+                case 8:
+                    $query->where('type','break');
+                break;
+
+                case 9:
+                    $query->where('type','lands');
+                break;
             }
         }
         return $query;

@@ -91,19 +91,44 @@ class AdvertismentController extends Controller
         $data = $this->model->with('category')->find($request->get('id'));
         if($data)
         {
-            if($data->category->type == 'residential')
-            {
-                $resources = new ResidentialResource($data);
-            }elseif($data->category->type == 'commercial')
-            {
-                $resources = new CommercialResource($data);   
-            }elseif($data->category->type == 'lands')
-            {
-                $resources = new LandResource($data);   
-            }elseif($data->category->name_en == 'Architecture')
-            {
-                $resources = new ArchitectureResource($data);
+            switch ($data->category->type) {
+                case 'lands':
+                    $resources = new LandResource($data);   
+                break;
+                case 'break':
+                     $resources = new LandResource($data);   
+                break;
+                case 'farm':
+                    $resources = new LandResource($data);   
+                break;
+                case 'industrial':
+                    $resources = new LandResource($data);   
+                break;
+                case 'commercial_units':
+                    $resources = new LandResource($data);   
+                break;                
+                case 'commercial':
+                    $resources = new LandResource($data);   
+                break;
+
+                case 'chalet':
+                    $resources = new ResidentialResource($data);   
+                break;
+
+                case 'residential':
+                    $resources = new ResidentialResource($data);   
+                break;
             }
+            if($data->category->name_en == 'Apartments' && $data->category->name_ar == 'شقق')
+            {
+                $resources = new ResidentialResource($data);   
+            }
+            if($data->category->name_en == 'Architecture' && $data->category->name_ar == 'عماير')
+            {
+                $resources = new ArchitectureResource($data);   
+            }
+
+            
             return response()->json(
                 [
                     'status'=>200,
@@ -118,7 +143,7 @@ class AdvertismentController extends Controller
                     'message'=>'Not Found',
                     'data'=> null
                 ]
-            );
+            ,404);
         }
         
     }

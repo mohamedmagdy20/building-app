@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::table('categories', function (Blueprint $table) {
             //
-            $table->enum('type',['residential','commercial','lands'])->nullable()->after('name_ar');
+            $table->enum('type',['residential','commercial_units','commercial','investment','industrial','chalet','farm','break','lands'])->nullable()->after('name_ar');
+        
         });
     }
 
