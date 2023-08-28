@@ -63,6 +63,16 @@ class Advertisment extends Model
         $query->where('ads_type','fixed');   
     }
 
+    public function scopeDraft($query)
+    {
+        $query->where('is_draft',true);
+    }
+    
+    public function scopeNotDraft($query)
+    {
+        $query->where('is_draft',false);
+    }
+
     
     public function scopeSpecial($query)
     {
@@ -88,22 +98,16 @@ class Advertisment extends Model
         if(isset($params['q']))
         {
             $word = $params['q'];
-            $word = str_replace(' ', '', $word);
-            // $query->whereHas('city',function($q) use($word){
-            //     $q->where('name_en', 'LIKE', '%'.$word.'%')->orWhere('name_ar', 'LIKE', '%'.$word.'%');
-            // })
-            // ->orWhereHas('category',function($q) use($word){
-            //     $q->where('name_en', 'LIKE', '%'.$word.'%')->orWhere('name_ar', 'LIKE', '%'.$word.'%');
+            $query->where('title','LIKE', '%' . $word . '%');
+            // $query->where(function ($query) use ($word) {
+            //     $query->whereHas('city', function ($q) use ($word) {
+            //         $q->where('name_en', 'LIKE', '%' . $word . '%')
+            //           ->orWhere('name_ar', 'LIKE', '%' . $word . '%');
+            //     })->orWhereHas('category', function ($q) use ($word) {
+            //         $q->where('name_en', 'LIKE', '%' . $word . '%')
+            //           ->orWhere('name_ar', 'LIKE', '%' . $word . '%');
+            //     });
             // });
-            $query->where(function ($query) use ($word) {
-                $query->whereHas('city', function ($q) use ($word) {
-                    $q->where('name_en', 'LIKE', '%' . $word . '%')
-                      ->orWhere('name_ar', 'LIKE', '%' . $word . '%');
-                })->orWhereHas('category', function ($q) use ($word) {
-                    $q->where('name_en', 'LIKE', '%' . $word . '%')
-                      ->orWhere('name_ar', 'LIKE', '%' . $word . '%');
-                });
-            });
         }
         return $query;
     }

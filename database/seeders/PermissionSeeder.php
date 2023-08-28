@@ -73,6 +73,21 @@ class PermissionSeeder extends Seeder
                 'guard_name'=>'admin'
             ],
 
+            [
+                'name'=>'Show_Advertisments',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Accept_Advertisments',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Block_Advertisments',
+                'guard_name'=>'admin'
+            ],
+
+            
+
 
 
         ];

@@ -27,7 +27,6 @@ class DraftController extends Controller
 
     public function update(Request $request)
     {
-        
         $this->model->findOrFail($request->id)->update(['ads_type'=>$request->type]);
         return response()->json(['data'=>null,'message'=>'Success','status'=>200]);
     }

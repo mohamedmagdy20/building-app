@@ -60,11 +60,18 @@
                     </a>
                 </li>
 
+                  
+                <li>
+                    <a href="{{route('admin.advertisment.index')}}" class=" waves-effect">
+                        <i class="ri-eraser-fill"></i>
+                        <span>Advertisments</span>
+                    </a>
+                </li>
 
                  
                 <li>
                     <a href="{{route('admin.setting.index')}}" class=" waves-effect">
-                        <i class="ri-account-circle-line"></i>
+                        <i class="ri-pencil-ruler-2-line"></i>
                         <span>Settings</span>
                     </a>
                 </li>

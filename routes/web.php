@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdvertiseController;
+use App\Http\Controllers\Admin\AdvertismentController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
@@ -87,6 +88,16 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
     Route::group(['controller'=>SettingController::class,'prefix'=>'settings'],function(){
         Route::get('/','index')->name('admin.setting.index');
         Route::post('update','update')->name('admin.setting.update');
+    });
+
+    
+    Route::group(['controller'=>AdvertismentController::class,'prefix'=>'advertisment'],function(){
+        $prefix = 'admin.advertisment.';
+        Route::get('/','index')->name($prefix.'index');
+        Route::get('data','data')->name($prefix.'data');
+        Route::get('accept','accept')->name($prefix.'accept');
+        Route::get('block','block')->name($prefix.'block');
+        Route::get('{id}/show','show')->name($prefix.'show');
     });
 
     
