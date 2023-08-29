@@ -167,6 +167,43 @@ class AdvertismentController extends Controller
         ], 200);
     }
 
+    public function update(AdvertismentRequest $request,$id)
+    {
+        $data = $request->validated();
+        $ads = $this->model->findOrFail($id)->update($data);
+        if($request->hasFile('image_1'))
+        {
+            $data['image_1'] = $this->updateFile($request->file('image_1'),$ads->adsImage[0]->image,config('filepath.ADS_PATH'));
+            $this->modelImage->where('image',$ads->adsImage[0]->image)->update(['image'=>$data['image_1']]);
+        }
+        if($request->hasFile('image_2'))
+        {
+            $data['image_2'] = $this->updateFile($request->file('image_2'),$ads->adsImage[1]->image,config('filepath.ADS_PATH'));
+            $this->modelImage->where('image',$ads->adsImage[1]->image)->update(['image'=>$data['image_2']]);
+        }
+        if($request->hasFile('image_3'))
+        {
+            $data['image_3'] = $this->updateFile($request->file('image_3'),$ads->adsImage[2]->image,config('filepath.ADS_PATH'));
+            $this->modelImage->where('image',$ads->adsImage[2]->image)->update(['image'=>$data['image_3']]);
+        }
+        if($request->hasFile('image_4'))
+        {
+            $data['image_4'] = $this->updateFile($request->file('image_4'),$ads->adsImage[3]->image,config('filepath.ADS_PATH'));
+            $this->modelImage->where('image',$ads->adsImage[3]->image)->update(['image'=>$data['image_4']]);
+        }
+        if($request->hasFile('image_5'))
+        {
+            $data['image_5'] = $this->updateFile($request->file('image_5'),$ads->adsImage[4]->image,config('filepath.ADS_PATH'));
+            $this->modelImage->where('image',$ads->adsImage[4]->image)->update(['image'=>$data['image_5']]);
+        }
+        return response()->json([
+            'status'=>200,
+            'message'=>'Advertisment Updated',
+            'data'=>null
+        ]);
+    
+    }
+
 
 
     public function addFavorate(Request $request)

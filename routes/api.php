@@ -49,6 +49,8 @@ Route::middleware([EnsureTokenIsValid::class])->group(function () {
         Route::post('store','store');
         // Route::get('favourite','favoriteAds');
         Route::post('add-favourite','addFavorate');
+        Route::post('update/{id}','update');
+        
     });
 
     Route::get('advertisment/favourite',[AdvertismentController::class,'favoriteAds']);
