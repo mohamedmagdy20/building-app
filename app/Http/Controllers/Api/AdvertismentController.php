@@ -152,13 +152,13 @@ class AdvertismentController extends Controller
         return response()->json([
             'status'=>200,
             'message'=>'Success',
-            'data'=>AdvertismentResource::collection($this->model->special()->latest()->get())
+            'data'=>AdvertismentResource::collection($this->model->special()->where('abroved',true)->latest()->get())
         ], 200);
     }
 
     public function index(Request $request)
     {
-        $data = $this->model->orderByRaw("FIELD(ads_type, 'fixed', 'normal')")->filter($request->all())->latest()->simplePaginate(7);
+        $data = $this->model->orderByRaw("FIELD(ads_type, 'fixed', 'normal')")->filter($request->all())->where('abroved',true)->latest()->simplePaginate(7);
         return response()->json([
             'status'=>200,
             'message'=>'Success',
