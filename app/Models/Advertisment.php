@@ -65,18 +65,33 @@ class Advertisment extends Model
 
     public function scopeDraft($query)
     {
-        $query->where('is_draft',true);
+        $query->where('ads_type','draft');
     }
     
     public function scopeNotDraft($query)
     {
-        $query->where('is_draft',false);
+        $query->where('ads_type','!=','draft');
     }
 
     
     public function scopeSpecial($query)
     {
         $query->where('ads_type','special');   
+    }
+
+    public function scopeRent($query)
+    {
+        $query->where('type','rent');
+    }
+
+    public function scopeSale($query)
+    {
+        $query->where('type','sale');
+    }
+
+    public function scopeInstead($query)
+    {
+        $query->where('type','instead');
     }
 
     public function scopeFilter($query, $params)

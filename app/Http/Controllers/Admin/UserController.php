@@ -47,7 +47,7 @@ class UserController extends Controller
     }
     public function show($id)
     {
-        $data = $this->model->findOrFail($id);
+        $data = $this->model->with('advertisment')->findOrFail($id);
         return view('dashboard.users.show',['data'=>$data]);
     }
     public function toggleActive(Request $request)

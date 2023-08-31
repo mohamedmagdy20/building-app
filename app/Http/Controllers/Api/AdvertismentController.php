@@ -34,7 +34,6 @@ class AdvertismentController extends Controller
     public function store(AdvertismentRequest $request)
     {
         $data = $request->validated();
-        return $data;
         try{
             DB::beginTransaction();
 

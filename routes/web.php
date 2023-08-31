@@ -4,7 +4,9 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdvertiseController;
 use App\Http\Controllers\Admin\AdvertismentController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\SettingController;
@@ -30,9 +32,7 @@ Route::post('admin/login',[AuthController::class,'login'])->middleware('guest:ad
 
 Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
 
-    Route::get('/', function () {
-        return view('dashboard.index');
-    })->name('admin.home');
+    Route::get('/',[HomeController::class,'index'])->name('admin.home');
     
     Route::get('logout',[AuthController::class,'logout'])->name('admin.logout');
 
@@ -98,6 +98,20 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
         Route::get('accept','accept')->name($prefix.'accept');
         Route::get('block','block')->name($prefix.'block');
         Route::get('{id}/show','show')->name($prefix.'show');
+    });
+
+    Route::group(['controller'=>HomeController::class],function(){
+        Route::get('get-type','getType')->name('home.get.type');
+        Route::get('get-acount-type','getAcountType')->name('home.get.acount.type');
+        Route::get('get-user-type','getUserType')->name('home.get.user.type');
+        Route::get('get-status','getAdvertismentStatus')->name('home.get.ads.status');
+        Route::get('get-category-type','getCategoryType')->name('home.get.category.type');
+    });
+
+
+    Route::group(['controller'=>PlanController::class,'prefix'=>'plans'],function(){
+        $prefix = 'admin.plans.';
+        Route::get('/','index')->name($prefix.'index');
     });
 
     

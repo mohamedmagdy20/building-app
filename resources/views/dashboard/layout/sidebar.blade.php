@@ -21,7 +21,7 @@
                 <li class="menu-title">Menu</li>
 
                 <li>
-                    <a href="index-2.html" class="waves-effect">
+                    <a href="{{route('admin.home')}}" class="waves-effect">
                         <i class="ri-dashboard-line"></i><span class="badge rounded-pill bg-success float-end">3</span>
                         <span>Dashboard</span>
                     </a>
@@ -65,6 +65,14 @@
                     <a href="{{route('admin.advertisment.index')}}" class=" waves-effect">
                         <i class="ri-eraser-fill"></i>
                         <span>Advertisments</span>
+                    </a>
+                </li>
+
+                
+                <li>
+                    <a href="{{route('admin.plans.index')}}" class=" waves-effect">
+                        <i class="ri-product-hunt-line"></i>
+                        <span>Plans</span>
                     </a>
                 </li>
 

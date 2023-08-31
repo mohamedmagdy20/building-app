@@ -23,7 +23,7 @@ class AdvertismentController extends Controller
 
     public function data(Request $request)
     {
-        $data = $this->model->with('category')->with('user')->with('area')->filter($request->all())->notDraft()->latest();
+        $data = $this->model->with('category')->with('user')->with('area')->filter($request->all())->latest();
         return DataTables::of($data)
         ->addColumn('action',function($data){
             return view('dashboard.advertisments.action',['type'=>'action','data'=>$data]);

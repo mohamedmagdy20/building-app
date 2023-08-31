@@ -54,5 +54,29 @@ class User extends Authenticatable
         return $this->belongsTo(Plan::class,'plan_id');
     }
 
+    public function advertisment()
+    {
+        return $this->hasMany(Advertisment::class);
+    }
+    
+    public function scopeNormal($query)
+    {
+        $query->where('account_type','normal');
+    }
+
+    public function scopePremium($query)
+    {
+        $query->where('account_type','premium');
+    }
+
+    public function scopePersonal($query)
+    {
+        $query->where('type','personal');
+    }
+
+    public function scopeCompany($query)
+    {
+        $query->where('type','company');
+    }
     
 }
