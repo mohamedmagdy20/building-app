@@ -25,7 +25,7 @@
             <div class="card-body">
                 <h4 class="card-title">Plans List</h4>
                 <div class="text-center mb-3">
-                    <a href="#" class="btn btn-primary">Add Plans <i
+                    <a href="{{ route('admin.plans.create') }}" class="btn btn-primary">Add Plans <i
                             class="fa fa-plus"></i></a>
                 </div>
                 <table id="datatable-buttons" class="table dt-responsive nowrap w-100">
@@ -52,13 +52,13 @@
                                 <p class="btn btn-sm btn-primary">Normal</p>
                                 @else
                                 <p class="btn btn-sm btn-warning">Permium</p>
-                                @endif 
+                                @endif
                             </td>
                             <td>{{$item->description}}</td>
 
                             <td>
-                                <a href="#" class="btn btn-primary"><i class="fa fa-pen"></i></a>
-                                <a href="#" class="btn btn-danger delete-confirm"><i class="fa fa-trash"></i></a>
+                                <a href="{{route('admin.plans.edit',$item->id)}}" class="btn btn-primary"><i class="fa fa-pen"></i></a>
+                                <a href="{{route('admin.plans.delete',$item->id)}}" class="btn btn-danger delete-confirm"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                     @endforeach

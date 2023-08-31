@@ -33,7 +33,7 @@ Route::post('admin/login',[AuthController::class,'login'])->middleware('guest:ad
 Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
 
     Route::get('/',[HomeController::class,'index'])->name('admin.home');
-    
+
     Route::get('logout',[AuthController::class,'logout'])->name('admin.logout');
 
     Route::group(['controller'=>AdminController::class,'prefix'=>'admins'],function () {
@@ -46,7 +46,7 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
         Route::post('/store','store')->name($prefix.'store');
         Route::post('{id}/update','update')->name($prefix.'update');
     });
-    
+
 
     Route::group(['controller'=>RoleController::class,'prefix'=>'roles'],function () {
         $prefix = 'admin.';
@@ -57,21 +57,21 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
     Route::group(['controller'=>PermissionController::class,'prefix'=>'permissions'],function () {
         $prefix = 'admin.';
         Route::get('{id}/','index')->name($prefix.'permission.index');
-        Route::post('{id}/update','update')->name($prefix.'permission.update');    
+        Route::post('{id}/update','update')->name($prefix.'permission.update');
     });
 
     Route::group(['controller'=>UserController::class,'prefix'=>'users'],function () {
         $prefix = 'admin.user';
         Route::get('/','index')->name($prefix.'.index');
         Route::get('data','data')->name($prefix.'.data');
-        Route::get('delete','toggleActive')->name($prefix.'.delete');    
-        Route::get('force-delete/{id}','delete')->name($prefix.'.force.delete');    
+        Route::get('delete','toggleActive')->name($prefix.'.delete');
+        Route::get('force-delete/{id}','delete')->name($prefix.'.force.delete');
 
-        Route::get('show/{id}','show')->name($prefix.'.show');  
-        Route::get('update-points','updatePoints')->name($prefix.'.update-points');  
+        Route::get('show/{id}','show')->name($prefix.'.show');
+        Route::get('update-points','updatePoints')->name($prefix.'.update-points');
     });
 
-    
+
     /** ----------------------Advertisements-------------------------- **/
     Route::group(['controller'=>AdvertiseController::class,'prefix'=>'advertises'],function () {
         /* Route For Advertisements Module */
@@ -90,7 +90,7 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
         Route::post('update','update')->name('admin.setting.update');
     });
 
-    
+
     Route::group(['controller'=>AdvertismentController::class,'prefix'=>'advertisment'],function(){
         $prefix = 'admin.advertisment.';
         Route::get('/','index')->name($prefix.'index');
@@ -111,9 +111,14 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
 
     Route::group(['controller'=>PlanController::class,'prefix'=>'plans'],function(){
         $prefix = 'admin.plans.';
-        Route::get('/','index')->name($prefix.'index');
+        Route::get('/'             ,'index')->name($prefix.'index');
+        Route::get('/create'       ,'Addplan')->name($prefix.'create');
+        Route::post('/store'       ,'storeplan')->name($prefix.'store');
+        Route::get('/edit/{id}'    ,'Editplan')->name($prefix.'edit');
+        Route::post('/update/{id}' ,'updateplan')->name($prefix.'update');
+        Route::get('/delete/{id}'  ,'Deleteplan')->name($prefix.'delete');
     });
 
-    
+
 });
 
