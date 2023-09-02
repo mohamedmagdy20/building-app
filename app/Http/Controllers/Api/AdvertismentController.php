@@ -17,7 +17,7 @@ use App\Traits\FilesTrait;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Shetabit\Visitor\Traits\Visitable;
 class AdvertismentController extends Controller
 {
     //
@@ -126,8 +126,7 @@ class AdvertismentController extends Controller
             {
                 $resources = new ArchitectureResource($data);   
             }
-
-            
+            $request->visitor()->visit($data);
             return response()->json(
                 [
                     'status'=>200,
@@ -169,32 +168,73 @@ class AdvertismentController extends Controller
     public function update(AdvertismentRequest $request,$id)
     {
         $data = $request->validated();
-        $ads = $this->model->findOrFail($id)->update($data);
+        $ads = $this->model->findOrFail($id);
+        // $ads->update($data);
+        $countofExist = count($ads->adsImage);
         if($request->hasFile('image_1'))
         {
-            $data['image_1'] = $this->updateFile($request->file('image_1'),$ads->adsImage[0]->image,config('filepath.ADS_PATH'));
-            $this->modelImage->where('image',$ads->adsImage[0]->image)->update(['image'=>$data['image_1']]);
-        }
+            if($countofExist >= 1)
+            {
+                $data['image_1'] = $this->updateFile($request->file('image_1'),$ads->adsImage[0]->image,config('filepath.ADS_PATH'));
+                $this->modelImage->where('image',$ads->adsImage[0]->image)->update(['image'=>$data['image_1']]);    
+            }else{
+                // add new
+                $data['image_1'] = $this->saveFile($request->file('image_1'),config('filepath.ADS_PATH'));
+                $this->modelImage->create(['image'=>$data['image_1'],'advertisment_id'=>$ads->id]);
+            }
+         }
         if($request->hasFile('image_2'))
         {
-            $data['image_2'] = $this->updateFile($request->file('image_2'),$ads->adsImage[1]->image,config('filepath.ADS_PATH'));
-            $this->modelImage->where('image',$ads->adsImage[1]->image)->update(['image'=>$data['image_2']]);
+            if($countofExist >= 2)
+            {
+                $data['image_2'] = $this->updateFile($request->file('image_2'),$ads->adsImage[1]->image,config('filepath.ADS_PATH'));
+                $this->modelImage->where('image',$ads->adsImage[1]->image)->update(['image'=>$data['image_2']]);    
+            }
+            else{
+                // add new
+                $data['image_2'] = $this->saveFile($request->file('image_2'),config('filepath.ADS_PATH'));
+                $this->modelImage->create(['image'=>$data['image_2'],'advertisment_id'=>$ads->id]);
+            }
         }
         if($request->hasFile('image_3'))
         {
-            $data['image_3'] = $this->updateFile($request->file('image_3'),$ads->adsImage[2]->image,config('filepath.ADS_PATH'));
-            $this->modelImage->where('image',$ads->adsImage[2]->image)->update(['image'=>$data['image_3']]);
+            if($countofExist >= 3)
+            {
+                $data['image_3'] = $this->updateFile($request->file('image_3'),$ads->adsImage[2]->image,config('filepath.ADS_PATH'));
+                $this->modelImage->where('image',$ads->adsImage[2]->image)->update(['image'=>$data['image_3']]);    
+            }
+            else{
+                // add new
+                $data['image_3'] = $this->saveFile($request->file('image_3'),config('filepath.ADS_PATH'));
+                $this->modelImage->create(['image'=>$data['image_3'],'advertisment_id'=>$ads->id]);
+            }
         }
         if($request->hasFile('image_4'))
         {
-            $data['image_4'] = $this->updateFile($request->file('image_4'),$ads->adsImage[3]->image,config('filepath.ADS_PATH'));
-            $this->modelImage->where('image',$ads->adsImage[3]->image)->update(['image'=>$data['image_4']]);
+            if($countofExist >= 4)
+            {
+                $data['image_4'] = $this->updateFile($request->file('image_4'),$ads->adsImage[3]->image,config('filepath.ADS_PATH'));
+                $this->modelImage->where('image',$ads->adsImage[3]->image)->update(['image'=>$data['image_4']]);    
+            }
+            else{
+                // add new
+                $data['image_4'] = $this->saveFile($request->file('image_4'),config('filepath.ADS_PATH'));
+                $this->modelImage->create(['image'=>$data['image_4'],'advertisment_id'=>$ads->id]);
+            }
         }
-        if($request->hasFile('image_5'))
+        if($request->hasFile('image_4'))
         {
-            $data['image_5'] = $this->updateFile($request->file('image_5'),$ads->adsImage[4]->image,config('filepath.ADS_PATH'));
-            $this->modelImage->where('image',$ads->adsImage[4]->image)->update(['image'=>$data['image_5']]);
+            if($countofExist >= 5)
+            {
+                $data['image_5'] = $this->updateFile($request->file('image_5'),$ads->adsImage[4]->image,config('filepath.ADS_PATH'));
+                $this->modelImage->where('image',$ads->adsImage[4]->image)->update(['image'=>$data['image_5']]);    
+            } else{
+                // add new
+                $data['image_5'] = $this->saveFile($request->file('image_5'),config('filepath.ADS_PATH'));
+                $this->modelImage->create(['image'=>$data['image_5'],'advertisment_id'=>$ads->id]);
+            }
         }
+    
         return response()->json([
             'status'=>200,
             'message'=>'Advertisment Updated',
@@ -226,14 +266,43 @@ class AdvertismentController extends Controller
         ], 200);
     }
 
-    // private function AdsImageLinks($images)
-    // {
-    //     $arrLink = [];
-    //     foreach($images as $index => $image)
-    //     {
-    //         $arrLink[$index] = asset('uploads/ads/'.$image->image);
-    //     }
-    //     return $arrLink;
-    // }
-    
+
+    public function userAds(Request $request)
+    {
+        $user = $this->auth($request->access_token);
+        $data = $this->model->filter($request->all())->where('user_id',$user->id)->where('abroved',true)->get();
+        return response()->json([
+            'status'=>200,
+            'message'=>'Success',
+            'data'=>AdvertismentResource::collection($data)
+        ]);
+    }
+
+    public function deleteImage(Request $request)
+    {
+        $ids = explode(',',$request->ids);
+        try{
+            $data = $this->modelImage->whereIn('id',$ids)->get();
+            foreach($data as $item)
+            {
+                if($item->image != null)
+                {
+                    $this->deleteFile($item->image,config('filepath.ADS_PATH'));
+                    $data->delete();
+                }
+            }
+            return response()->json([
+                'data'=>null,
+                'message'=>'success',
+                'status'=>200                
+            ]);
+        }catch(Exception $e)
+        {
+            return response()->json([
+                'data'=>null,
+                'message'=>$e->getMessage(),
+                'status'=>400                
+            ],400);
+        }
+    }
 }

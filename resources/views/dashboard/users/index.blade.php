@@ -133,7 +133,8 @@ $(function() {
 
 function updatePoints(id)
 {
-    points = $("#points").val()
+    points = $(`#points-${id}`).val()
+    console.log(points);
     $.ajax({
         type: 'GET',
         url: "{{route('admin.user.update-points')}}",

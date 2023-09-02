@@ -19,7 +19,7 @@
     @break
     @case('points')
     <div class="w-50">
-        <input type="text" name="points" onchange="updatePoints({{$data->id}})" {{$data->deleted_at !=null ? 'readonly' : ''}}  disable value="{{$data->points}}" id="points" class="form-control">
+        <input type="text" name="points" onchange="updatePoints({{$data->id}})" {{$data->deleted_at !=null ? 'readonly' : ''}}  disable value="{{$data->points}}" id="points-{{$data->id}}" class="form-control">
     </div>
     @break
     @case('account_type')

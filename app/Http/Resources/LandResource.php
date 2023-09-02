@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\DB;
 
 class LandResource extends JsonResource
 {
@@ -15,6 +16,7 @@ class LandResource extends JsonResource
      */
     public function toArray($request)
     {
+        $visitCount =  DB::table('shetabit_visits')->where('visitor_id',$this->id)->count();
         return [
 
             'id'=>$this->id,
@@ -33,7 +35,7 @@ class LandResource extends JsonResource
             'abroved'=>$this->abroved,
             'images'=>AdvertismantImages::collection($this->adsImage),
             'date_created'=>Carbon::parse($this->created_at)->format('M d Y'),
-            'views'=> 0
+            'views'=>$visitCount
         ];
         
     }

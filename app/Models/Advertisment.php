@@ -13,6 +13,7 @@ class Advertisment extends Model
 [
         'category_id',
         'title',
+        'is_expire',
         'user_id',
         'area_id',
         'price',
@@ -108,6 +109,74 @@ class Advertisment extends Model
         if(isset($params['type']))
         {
             $query->where('type',$params['type']);
+        }
+
+        
+        if(isset($params['expire']))
+        {
+            $query->where('is_expire',$params['expire']);
+        }
+
+        if(isset($params['category_ads_type']))
+        {
+            switch ($params['category_ads_type']) {
+                case 1:
+                    $query->whereHas('category',function($q){
+                        $q->where('type','residential');
+                    });
+                break;
+
+                case 2:
+                    $query->whereHas('category',function($q){
+                        $q->where('type','commercial_units');
+                    });
+                break;
+
+                case 3:
+                    $query->whereHas('category',function($q){
+                        $q->where('type','commercial');
+                    });
+                break;
+
+                case 4:
+                    $query->whereHas('category',function($q){
+                        $q->where('type','investment');
+                    });
+                break;
+ 
+                case 5:
+                    $query->whereHas('category',function($q){
+                        $q->where('type','industrial');
+                    });
+                break;
+
+                
+                case 6:
+                    $query->whereHas('category',function($q){
+                        $q->where('type','chalet');
+                    });
+                break;
+
+                case 7:
+                    $query->whereHas('category',function($q){
+                        $q->where('type','farm');
+                    });
+                break;
+
+                
+                case 8:
+                    $query->whereHas('category',function($q){
+                        $q->where('type','break');
+                    });
+                break;
+
+                
+                case 9:
+                    $query->whereHas('category',function($q){
+                        $q->where('type','lands');
+                    });
+                break;
+            }
         }
 
         if(isset($params['q']))
