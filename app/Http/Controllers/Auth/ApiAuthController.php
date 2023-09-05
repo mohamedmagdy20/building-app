@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Traits\FilesTrait;
@@ -60,7 +59,7 @@ class ApiAuthController extends Controller
     public function handleLogin(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email'    => 'required|email|max:100',
+            'phone'    => 'required',
             'password' => 'required|string|max:50|min:5',
         ]);
         if ($validator->fails()) {
@@ -68,7 +67,7 @@ class ApiAuthController extends Controller
             return response()->json($errors);
         }
 
-        $is_user = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
+        $is_user = Auth::attempt(['phone' => $request->phone, 'password' => $request->password]);
 
         if(! $is_user)
         {
@@ -81,6 +80,7 @@ class ApiAuthController extends Controller
             ]);
         }
         $user = User::where('email', '=', $request->email)->first();
+        $user->update(['notification_token'=>$request->notification_token]);
         $new_access_token = Str::random(64);
         $user->update([
             'access_token' => $new_access_token
@@ -105,7 +105,8 @@ class ApiAuthController extends Controller
             ],403);
         }
         $user->update([
-            'access_token' => NULL
+            'access_token' => NULL,
+            'notification_token'=>NULL
         ]);
         return response()->json([
             'status'  => '200',

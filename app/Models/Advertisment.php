@@ -9,8 +9,9 @@ class Advertisment extends Model
 {
     use HasFactory;
     protected $table = 'advertisments';
+    public $timestamps = true;
     protected $fillable = 
-[
+    [
         'category_id',
         'title',
         'is_expire',

@@ -27,7 +27,8 @@ class User extends Authenticatable
         'type',
         'account_type',
         'points',
-        'plan_id'
+        'plan_id',
+        'notification_token'
     ];
 
     /**

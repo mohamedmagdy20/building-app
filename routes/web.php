@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\SettingController;
+use App\Models\Advertisment;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -119,6 +121,24 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
         Route::get('/delete/{id}'  ,'Deleteplan')->name($prefix.'delete');
     });
 
-
 });
 
+// Route::get('test',function(){
+//     $today = Carbon::today();
+//     $advertisments = Advertisment::where('abroved',true)->where('ads_type','!=','draft')->first();
+//     // return $advertisments;
+//     // foreach($advertisments as $item)
+//     // {
+//         $updated_at = Carbon::parse($advertisments->updated_at);
+//         $expiration = $updated_at->addDays(30);
+//         if($today->gte($expiration))
+//         {
+//             return 'work fine';
+//             // $item->update(['is_expire'=>true]);
+//         }else{
+//             return 'not work fine';
+
+//         }
+
+//     // }
+// });

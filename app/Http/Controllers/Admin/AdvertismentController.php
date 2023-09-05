@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Advertisment;
 use Illuminate\Http\Request;
+use Notification;
 use Yajra\DataTables\Facades\DataTables;
 
 class AdvertismentController extends Controller
 {
     //
     public $model;
-    public function __construct(Advertisment $model)
+    protected $notification;
+    public function __construct(Advertisment $model , Notification $notification)
     {
         $this->model = $model;
+        $this->notification = $notification;
     }
     public function index()
     {
@@ -42,13 +45,19 @@ class AdvertismentController extends Controller
 
     public function accept(Request $request)
     {
-        $this->model->findOrFail($request->id)->update(['abroved'=>true]);
+        $user =  $this->model->findOrFail($request->id);
+        $user->update(['abroved'=>true]);
+        $this->notification->send('accept',$request->id,$user->notification_token);
         return response()->json(['status'=>true]);
     }
 
     public function block(Request $request)
     {
-        $this->model->findOrFail($request->id)->update(['abroved'=>false]);
+        $user =  $this->model->findOrFail($request->id);
+        $user->update(['abroved'=>false]);
+
+        $this->notification->send('reject',$request->id,$user->notification_token);
+        
         return response()->json(['status'=>true]);
     }
 
