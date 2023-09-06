@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdvertiseController;
 use App\Http\Controllers\Api\AdvertismentController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\DraftController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Http\Request;
@@ -39,7 +40,9 @@ Route::get('advertisment/special',[AdvertismentController::class,'specialAds']);
 Route::middleware([EnsureTokenIsValid::class])->group(function () {
     Route::post('/logout',[ApiAuthController::class,'logout']);
 
+    Route::get('/notification',[NotificationController::class,'index']);
 
+ 
     Route::group(['controller'=>ProfileController::class,'prefix'=>'profile'],function(){
         Route::get('/','profile');
         Route::post('update','update');

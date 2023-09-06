@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Utils\Notification;
 use App\Models\Advertisment;
+use App\Traits\FilesTrait;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class AdvertismentController extends Controller
 {
+    use FilesTrait;
     //
     public $model;
     public $notification;
@@ -27,6 +29,10 @@ class AdvertismentController extends Controller
     public function data(Request $request)
     {
         $data = $this->model->with('category')->with('user')->with('area')->filter($request->all())->latest();
+        if(! auth()->user()->hasRole('SuperAdmin'))
+        {
+            $data->where('ads_type','!=','draft');
+        }
         return DataTables::of($data)
         ->addColumn('action',function($data){
             return view('dashboard.advertisments.action',['type'=>'action','data'=>$data]);
@@ -45,18 +51,23 @@ class AdvertismentController extends Controller
 
     public function accept(Request $request)
     {
-        $user =  $this->model->findOrFail($request->id);
-        $user->update(['abroved'=>true]);
-        $this->notification->send('accept',$request->id,$user->notification_token);
+        $data =  $this->model->findOrFail($request->id);
+
+        $this->notification->send('accept',$request->id,$data->user->notification_token);
         return response()->json(['status'=>true]);
     }
 
     public function block(Request $request)
     {
-        $user =  $this->model->findOrFail($request->id);
-        $user->update(['abroved'=>false]);
-        $this->notification->send('reject',$request->id,$user->notification_token);
-        
+        $data =  $this->model->findOrFail($request->id);
+        $this->notification->send('reject',$request->id,$data->user->notification_token);
+
+        foreach($data->adsImage as $item)
+        {
+            $this->deleteFile($item->image,config('filepath.ADS_PATH'));
+        }
+        $data->delete();        
+
         return response()->json(['status'=>true]);
     }
 

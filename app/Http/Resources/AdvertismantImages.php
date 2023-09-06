@@ -15,6 +15,7 @@ class AdvertismantImages extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'=>$this->id,
             'image'=>asset('uploads/ads/'.$this->image)
         ];
     }

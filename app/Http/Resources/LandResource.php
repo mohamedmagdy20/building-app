@@ -16,7 +16,10 @@ class LandResource extends JsonResource
      */
     public function toArray($request)
     {
+        $typeArr = ['residential','commercial_units','commercial','investment','industrial','chalet','farm','break','lands'];
+        $index = array_search($this->category->type,$typeArr);
         $visitCount =  DB::table('shetabit_visits')->where('visitor_id',$this->id)->count();
+
         return [
 
             'id'=>$this->id,
@@ -24,18 +27,23 @@ class LandResource extends JsonResource
             'user'=>$this->user->name,
             'category'=>$request->header('lang')=='en' ? $this->category->name_en : $this->category->name_ar ,
             'area'=>$request->header('lang')=='en' ? $this->area->name_en : $this->area->name_ar,
+            'category_id'=>$this->category->id,
+            'category_type_id'=>$index+1,
+            'area_id'=>$this->area->id,
             'price'=>$this->price,
             'location'=>explode(',',$this->location),
             'links'=>$this->links,
             'description'=>$this->description,
             'space'=>$this->space,          
             'number'=>$this->number,
+            'phone'=>$this->user->phone,
+            
             'type'=>$this->type,
             'ads_type'=>$this->ads_type,
             'abroved'=>$this->abroved,
             'images'=>AdvertismantImages::collection($this->adsImage),
-            'date_created'=>Carbon::parse($this->created_at)->format('M d Y'),
-            'views'=>$visitCount
+            'date_created'=>Carbon::parse($this->update_at)->format('M d Y'),
+            'views'=> $visitCount
         ];
         
     }

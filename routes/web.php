@@ -3,7 +3,9 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdvertiseController;
 use App\Http\Controllers\Admin\AdvertismentController;
+use App\Http\Controllers\Admin\AreaController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PlanController;
@@ -42,36 +44,36 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
     Route::group(['controller'=>AdminController::class,'prefix'=>'admins'],function () {
         $prefix = 'admin.users.';
 
-        Route::get('','index')->name($prefix.'index');
-        Route::get('/create','create')->name($prefix.'create');
-        Route::get('{id}/edit','edit')->name($prefix.'edit');
-        Route::get('delete/{id}','delete')->name($prefix.'delete');
-        Route::post('/store','store')->name($prefix.'store');
-        Route::post('{id}/update','update')->name($prefix.'update');
+        Route::get('','index')->middleware('permission:Show_Admins')->name($prefix.'index');
+        Route::get('/create','create')->middleware('permission:Add_Admins')->name($prefix.'create');
+        Route::get('{id}/edit','edit')->middleware('permission:Edit_Admins')->name($prefix.'edit');
+        Route::get('delete/{id}','delete')->middleware('permission:Delete_Admins')->name($prefix.'delete');
+        Route::post('/store','store')->middleware('permission:Add_Admins')->name($prefix.'store');
+        Route::post('{id}/update','update')->middleware('permission:Edit_Admins')->name($prefix.'update');
     });
 
 
     Route::group(['controller'=>RoleController::class,'prefix'=>'roles'],function () {
         $prefix = 'admin.';
-        Route::get('','index')->name($prefix.'role.index');
+        Route::get('','index')->middleware('permission:Show_Roles')->name($prefix.'role.index');
     });
 
 
     Route::group(['controller'=>PermissionController::class,'prefix'=>'permissions'],function () {
         $prefix = 'admin.';
-        Route::get('{id}/','index')->name($prefix.'permission.index');
-        Route::post('{id}/update','update')->name($prefix.'permission.update');
+        Route::get('{id}/','index')->middleware('permission:Show_Permission')->name($prefix.'permission.index');
+        Route::post('{id}/update','update')->middleware('permission:Edit_Permission')->name($prefix.'permission.update');
     });
 
     Route::group(['controller'=>UserController::class,'prefix'=>'users'],function () {
         $prefix = 'admin.user';
-        Route::get('/','index')->name($prefix.'.index');
-        Route::get('data','data')->name($prefix.'.data');
-        Route::get('delete','toggleActive')->name($prefix.'.delete');
-        Route::get('force-delete/{id}','delete')->name($prefix.'.force.delete');
+        Route::get('/','index')->middleware('permission:Show_Users')->name($prefix.'.index');
+        Route::get('data','data')->middleware('permission:Show_Users')->name($prefix.'.data');
+        Route::get('delete','toggleActive')->middleware('permission:Delete_Users')->name($prefix.'.delete');
+        Route::get('force-delete/{id}','delete')->middleware('permission:Delete_Users')->name($prefix.'.force.delete');
 
-        Route::get('show/{id}','show')->name($prefix.'.show');
-        Route::get('update-points','updatePoints')->name($prefix.'.update-points');
+        Route::get('show/{id}','show')->middleware('permission:Show_Users')->name($prefix.'.show');
+        Route::get('update-points','updatePoints')->middleware('permission:Edit_Users')->name($prefix.'.update-points');
     });
 
 
@@ -79,31 +81,31 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
     Route::group(['controller'=>AdvertiseController::class,'prefix'=>'advertises'],function () {
         /* Route For Advertisements Module */
         $prefix = 'admin.Advertise.';
-    Route::get('',       'AllAdvertise')->name($prefix.'index');
-    Route::get('/create',     'AddAdvertise')->name($prefix.'create');
-    Route::post('/store',      'storeAdvertise')->name($prefix.'store');
-    Route::get('/edit/{id}',  'EditAdvertise')->name($prefix.'edit');
-    Route::post('/update/{id}','updateAdvertise')->name($prefix.'update');
-    Route::get('/delete/{id}','DeletetaskAdvertise')->name($prefix.'delete');
+    Route::get('',       'AllAdvertise')->middleware('permission:Show_Advertises')->name($prefix.'index');
+    Route::get('/create',     'AddAdvertise')->middleware('permission:Add_Advertises')->name($prefix.'create');
+    Route::post('/store',      'storeAdvertise')->middleware('permission:Add_Advertises')->name($prefix.'store');
+    Route::get('/edit/{id}',  'EditAdvertise')->middleware('permission:Edit_Advertises')->name($prefix.'edit');
+    Route::post('/update/{id}','updateAdvertise')->middleware('permission:Edit_Advertises')->name($prefix.'update');
+    Route::get('/delete/{id}','DeletetaskAdvertise')->middleware('permission:Delete_Advertises')->name($prefix.'delete');
     });
     /** --------------------------------------------------------------- **/
 
     Route::group(['controller'=>SettingController::class,'prefix'=>'settings'],function(){
-        Route::get('/','index')->name('admin.setting.index');
-        Route::post('update','update')->name('admin.setting.update');
+        Route::get('/','index')->middleware('permission:Show_Settings')->name('admin.setting.index');
+        Route::post('update','update')->middleware('permission:Edit_Settings')->name('admin.setting.update');
     });
 
 
     Route::group(['controller'=>AdvertismentController::class,'prefix'=>'advertisment'],function(){
         $prefix = 'admin.advertisment.';
-        Route::get('/','index')->name($prefix.'index');
-        Route::get('data','data')->name($prefix.'data');
-        Route::get('accept','accept')->name($prefix.'accept');
-        Route::get('block','block')->name($prefix.'block');
-        Route::get('{id}/show','show')->name($prefix.'show');
+        Route::get('/','index')->middleware('permission:Show_Advertisments')->name($prefix.'index');
+        Route::get('data','data')->middleware('permission:Show_Advertisments')->name($prefix.'data');
+        Route::get('accept','accept')->middleware('permission:Accept_Advertisments')->name($prefix.'accept');
+        Route::get('block','block')->middleware('permission:Block_Advertisments')->name($prefix.'block');
+        Route::get('{id}/show','show')->middleware('permission:Show_Advertisments')->name($prefix.'show');
     });
 
-    Route::group(['controller'=>HomeController::class],function(){
+    Route::group(['controller'=>HomeController::class,'middleware'=>'permission:Show_Statictics'],function(){
         Route::get('get-type','getType')->name('home.get.type');
         Route::get('get-acount-type','getAcountType')->name('home.get.acount.type');
         Route::get('get-user-type','getUserType')->name('home.get.user.type');
@@ -114,39 +116,39 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
 
     Route::group(['controller'=>PlanController::class,'prefix'=>'plans'],function(){
         $prefix = 'admin.plans.';
-        Route::get('/'             ,'index')->name($prefix.'index');
-        Route::get('/create'       ,'Addplan')->name($prefix.'create');
-        Route::post('/store'       ,'storeplan')->name($prefix.'store');
-        Route::get('/edit/{id}'    ,'Editplan')->name($prefix.'edit');
-        Route::post('/update/{id}' ,'updateplan')->name($prefix.'update');
-        Route::get('/delete/{id}'  ,'Deleteplan')->name($prefix.'delete');
+        Route::get('/'             ,'index')->middleware('permission:Show_Plans')->name($prefix.'index');
+        Route::get('/create'       ,'Addplan')->middleware('permission:Add_Plans')->name($prefix.'create');
+        Route::post('/store'       ,'storeplan')->middleware('permission:Add_Plans')->name($prefix.'store');
+        Route::get('/edit/{id}'    ,'Editplan')->middleware('permission:Edit_Plans')->name($prefix.'edit');
+        Route::post('/update/{id}' ,'updateplan')->middleware('permission:Edit_Plans')->name($prefix.'update');
+        Route::get('/delete/{id}'  ,'Deleteplan')->middleware('permission:Delete_Plans')->name($prefix.'delete');
     });
 
     Route::group(['controller'=>SearchLosController::class,'prefix'=>'search-history'],function(){
         $prefix = 'admin.search.logs.';
-        Route::get('/','index')->name($prefix.'index');
-        Route::get('data','data')->name($prefix.'data');
-     
+        Route::get('/','index')->middleware('permission:Show_Settings')->name($prefix.'index');
+        Route::get('data','data')->middleware('permission:Edit_Settings')->name($prefix.'data');
     });
 
+
+    
+    Route::group(['controller'=>AreaController::class,'prefix'=>'areas'],function(){
+        $prefix = 'admin.areas.';
+        Route::get('/','index')->middleware('permission:Show_Areas')->name($prefix.'index');
+        Route::get('/create','create')->middleware('permission:Add_Areas')->name($prefix.'create');
+        Route::post('/store','store')->middleware('permission:Add_Areas')->name($prefix.'store');
+        Route::get('/edit/{id}','edit')->middleware('permission:Edit_Areas')->name($prefix.'edit');
+        Route::post('/update/{id}','update')->middleware('permission:Edit_Areas')->name($prefix.'update');
+        Route::get('/delete/{id}','delete')->middleware('permission:Delete_Areas')->name($prefix.'delete');
+    });
+
+    Route::group(['controller'=>CategoryController::class,'prefix'=>'category'],function(){
+        $prefix = 'admin.category.';
+        Route::get('/','index')->middleware('permission:Show_Category')->name($prefix.'index');
+        Route::get('/create','create')->middleware('permission:Add_Category')->name($prefix.'create');
+        Route::post('/store','store')->middleware('permission:Add_Category')->name($prefix.'store');
+        Route::get('/edit/{id}','edit')->middleware('permission:Edit_Category')->name($prefix.'edit');
+        Route::post('/update/{id}','update')->middleware('permission:Edit_Category')->name($prefix.'update');
+        Route::get('/delete/{id}','delete')->middleware('permission:Delete_Category')->name($prefix.'delete');
+    });
 });
-
-// Route::get('test',function(){
-//     $today = Carbon::today();
-//     $advertisments = Advertisment::where('abroved',true)->where('ads_type','!=','draft')->first();
-//     // return $advertisments;
-//     // foreach($advertisments as $item)
-//     // {
-//         $updated_at = Carbon::parse($advertisments->updated_at);
-//         $expiration = $updated_at->addDays(30);
-//         if($today->gte($expiration))
-//         {
-//             return 'work fine';
-//             // $item->update(['is_expire'=>true]);
-//         }else{
-//             return 'not work fine';
-
-//         }
-
-//     // }
-// });

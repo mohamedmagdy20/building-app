@@ -18,7 +18,7 @@ class UserResource extends JsonResource
         return [
             'name'=>$this->name,
             'email'=>$this->email,
-            'image'=>$this->image ? asset('uploads/users/'.$this->image) : null,
+            'image'=>$this->image ? asset('public/uploads/users/'.$this->image) : null,
             'phone'=>$this->phone,
             'type'=>$this->type,
             'access_token'=>$this->access_token,

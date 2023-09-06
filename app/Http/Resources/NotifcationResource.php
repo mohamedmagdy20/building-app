@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SettingResource extends JsonResource
+class NotifcationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,7 +15,8 @@ class SettingResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'splach_image'=>asset('public/uploads/splach/'.$this->value),
+            'message'=>$this->message,
+            'type'=>$this->type,
         ];
     }
 }

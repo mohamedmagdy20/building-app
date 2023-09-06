@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Advertise;
 use App\Models\Advertisment;
 use App\Models\Plan;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -22,10 +24,10 @@ class HomeController extends Controller
     public function index()
     {
         $users = $this->userModel::count();
-        $admins = Admin::count();
+        // $advertisments = Advertisment::with('user')->where('abroved',0)->where('created_at',Carbon::today())->get();
+        $ads = Advertise::count();
         $advertisments = $this->model::count();
-        $plans = Plan::count();
-        return view('dashboard.index',['users'=>$users,'admins'=>$admins,'advertisments'=>$advertisments,'plans'=>$plans]);
+        return view('dashboard.index',['advertisments'=>$advertisments,'users'=>$users,'ads'=>$ads]);
     }
 
     public function getType()

@@ -82,6 +82,22 @@
                     </a>
                 </li>
 
+
+                <li>
+                    <a href="{{route('admin.areas.index')}}" class=" waves-effect">
+                        <i class=" ri-pin-distance-fill"></i>
+                        <span>Areas</span>
+                    </a>
+                </li>
+
+                
+                <li>
+                    <a href="{{route('admin.category.index')}}" class=" waves-effect">
+                        <i class="  ri-creative-commons-line"></i>
+                        <span>Category</span>
+                    </a>
+                </li>
+
                  
                 <li>
                     <a href="{{route('admin.setting.index')}}" class=" waves-effect">

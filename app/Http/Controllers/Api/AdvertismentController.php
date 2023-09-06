@@ -181,7 +181,7 @@ class AdvertismentController extends Controller
     {
         $data = $request->validated();
         $ads = $this->model->findOrFail($id);
-        // $ads->update($data);
+        $ads->update($data);
         $countofExist = count($ads->adsImage);
         if($request->hasFile('image_1'))
         {
@@ -234,7 +234,7 @@ class AdvertismentController extends Controller
                 $this->modelImage->create(['image'=>$data['image_4'],'advertisment_id'=>$ads->id]);
             }
         }
-        if($request->hasFile('image_4'))
+        if($request->hasFile('image_5'))
         {
             if($countofExist >= 5)
             {

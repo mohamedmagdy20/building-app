@@ -5,19 +5,19 @@
             <div class="navbar-brand-box">
                 <a href="index-2.html" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{{ asset('uploads/logo/logo.png') }}" alt="logo-sm" height="22">
+                        <img src="{{ asset('assets/images/mainlogo.png') }}" alt="logo-sm" height="50">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ asset('uploads/logo/logo.png') }}" alt="logo-dark" height="20">
+                        <img src="{{ asset('assets/images/mainlogo.png') }}" alt="logo-dark" height="70">
                     </span>
                 </a>
 
                 <a href="index-2.html" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="{{ asset('uploads/logo/logo.png') }}" alt="logo-sm-light" height="22">
+                        <img src="{{ asset('assets/images/mainlogo.png') }}" alt="logo-sm-light" height="50">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ asset('uploads/logo/logo.png') }}" alt="logo-light" height="20">
+                        <img src="{{ asset('assets/images/mainlogo.png') }}" alt="logo-light" height="70">
                     </span>
                 </a>
             </div>
@@ -26,13 +26,13 @@
                 <i class="ri-menu-2-line align-middle"></i>
             </button>
 
-            <!-- App Search-->
+            {{-- <!-- App Search-->
             <form class="app-search d-none d-lg-block">
                 <div class="position-relative">
                     <input type="text" class="form-control" placeholder="Search...">
                     <span class="ri-search-line"></span>
                 </div>
-            </form>
+            </form> --}}
 
         </div>
 
@@ -114,78 +114,30 @@
                                 <h6 class="m-0"> Notifications </h6>
                             </div>
                             <div class="col-auto">
-                                <a href="#!" class="small"> View All</a>
+                                <a href="{{route('admin.advertisment.index')}}" class="small"> View All</a>
                             </div>
                         </div>
                     </div>
                     <div data-simplebar style="max-height: 230px;">
-                        <a href="#" class="text-reset notification-item">
-                            <div class="d-flex">
-                                <div class="avatar-xs me-3">
-                                    <span class="avatar-title bg-primary rounded-circle font-size-16">
-                                        <i class="ri-shopping-cart-line"></i>
-                                    </span>
-                                </div>
-                                <div class="flex-1">
-                                    <h6 class="mb-1">Your order is placed</h6>
-                                    <div class="font-size-12 text-muted">
-                                        <p class="mb-1">If several languages coalesce the grammar</p>
-                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 3 min ago</p>
-                                    </div>
+                      {{-- @foreach ($advertisments as $index =>  $item ) --}}
+                      {{-- <a href="{{route('admin.advertisment.index')}}" class="text-reset notification-item">
+                        <div class="d-flex">
+                            <img src="{{ asset('uploads/users/'.$item->image) }}"
+                                class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                            <div class="flex-1">
+                                <h6 class="mb-1">{{$item->user->name}}</h6>
+                                <div class="font-size-12 text-muted">
+                                    <p class="mb-1">Has Make New Advertisment</p>
+                                    <p class="mb-0"><i class="mdi mdi-clock-outline"></i>{{$item->created_at->format('H:i:m')}}</p>
                                 </div>
                             </div>
-                        </a>
-                        <a href="#" class="text-reset notification-item">
-                            <div class="d-flex">
-                                <img src="{{ asset('assets/images/users/avatar-3.jpg') }}"
-                                    class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                <div class="flex-1">
-                                    <h6 class="mb-1">James Lemire</h6>
-                                    <div class="font-size-12 text-muted">
-                                        <p class="mb-1">It will seem like simplified English.</p>
-                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 1 hours ago</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="#" class="text-reset notification-item">
-                            <div class="d-flex">
-                                <div class="avatar-xs me-3">
-                                    <span class="avatar-title bg-success rounded-circle font-size-16">
-                                        <i class="ri-checkbox-circle-line"></i>
-                                    </span>
-                                </div>
-                                <div class="flex-1">
-                                    <h6 class="mb-1">Your item is shipped</h6>
-                                    <div class="font-size-12 text-muted">
-                                        <p class="mb-1">If several languages coalesce the grammar</p>
-                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 3 min ago</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="text-reset notification-item">
-                            <div class="d-flex">
-                                <img src="{{ asset('assets/images/users/avatar-4.jpg') }}"
-                                    class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                <div class="flex-1">
-                                    <h6 class="mb-1">Salena Layfield</h6>
-                                    <div class="font-size-12 text-muted">
-                                        <p class="mb-1">As a skeptical Cambridge friend of mine occidental.</p>
-                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 1 hours ago</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="p-2 border-top">
-                        <div class="d-grid">
-                            <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
-                                <i class="mdi mdi-arrow-right-circle me-1"></i> View More..
-                            </a>
                         </div>
+                    </a>        --}}
+                      {{-- @endforeach  --}}
+                   
+                        
                     </div>
+                    
                 </div>
             </div>
 
@@ -199,7 +151,7 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
-                    <a class="dropdown-item" href="#"><i class="ri-user-line align-middle me-1"></i>
+                    {{-- <a class="dropdown-item" href="#"><i class="ri-user-line align-middle me-1"></i>
                         Profile</a>
                     <a class="dropdown-item" href="#"><i class="ri-wallet-2-line align-middle me-1"></i> My
                         Wallet</a>
@@ -207,7 +159,7 @@
                             class="badge bg-success float-end mt-1">11</span><i
                             class="ri-settings-2-line align-middle me-1"></i> Settings</a>
                     <a class="dropdown-item" href="#"><i class="ri-lock-unlock-line align-middle me-1"></i>
-                        Lock screen</a>
+                        Lock screen</a> --}}
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item text-danger" href="{{route('admin.logout')}}"><i
                             class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>

@@ -85,11 +85,78 @@ class PermissionSeeder extends Seeder
                 'name'=>'Block_Advertisments',
                 'guard_name'=>'admin'
             ],
+            [
+                'name'=>'Show_Plans',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Add_Plans',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Edit_Plans',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Delete_Plans',
+                'guard_name'=>'admin'
+            ],
 
-            
+            [
+                'name'=>'Show_Settings',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Edit_Settings',
+                'guard_name'=>'admin'
+            ],
 
+            [
+                'name'=>'Show_Search_History',
+                'guard_name'=>'admin'
+            ],
 
+            [
+                'name'=>'Edit_Users',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Show_Statictics',
+                'guard_name'=>'admin'                
+            ],
+            [
+                'name'=>'Show_Areas',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Add_Areas',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Edit_Areas',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Delete_Areas',
+                'guard_name'=>'admin'
+            ],
 
+            [
+                'name'=>'Show_Category',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Add_Category',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Edit_Category',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Delete_Category',
+                'guard_name'=>'admin'
+            ],
         ];
 
         foreach($data as $d)
