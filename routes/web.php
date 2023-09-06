@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\SearchLosController;
 use App\Http\Controllers\SettingController;
 use App\Models\Advertisment;
 use Carbon\Carbon;
@@ -119,6 +120,13 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
         Route::get('/edit/{id}'    ,'Editplan')->name($prefix.'edit');
         Route::post('/update/{id}' ,'updateplan')->name($prefix.'update');
         Route::get('/delete/{id}'  ,'Deleteplan')->name($prefix.'delete');
+    });
+
+    Route::group(['controller'=>SearchLosController::class,'prefix'=>'search-history'],function(){
+        $prefix = 'admin.search.logs.';
+        Route::get('/','index')->name($prefix.'index');
+        Route::get('data','data')->name($prefix.'data');
+     
     });
 
 });

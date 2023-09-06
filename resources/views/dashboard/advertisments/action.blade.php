@@ -2,9 +2,9 @@
     @case('action')
         <a href="{{route('admin.advertisment.show',$data->id)}}" class="btn btn-info"><i class="fa fa-eye"></i></a>
         @if ($data->abroved == false)
-            <a class="btn btn-success" onclick="Abrove({{$data->id}})"><i class="fa fa-check"></i></a>        
+            <a class="btn btn-success" onclick="Abrove({{$data->id}},event)"><i class="fa fa-check"></i></a>        
         @else
-            <a class="btn btn-danger text-bold" onclick="Block({{$data->id}})" >X</a>        
+            <a class="btn btn-danger text-bold" onclick="Block({{$data->id}},event)" >X</a>        
         @endif
         @break
     @case('image')

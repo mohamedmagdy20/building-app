@@ -183,7 +183,7 @@ class Advertisment extends Model
         if(isset($params['q']))
         {
             $word = $params['q'];
-            $query->where('title','LIKE', '%' . $word . '%');
+            $query->where('number',$word)->orWhere('price',$word)->orWhere('space',$word)->orWhere('title','LIKE', '%' . $word . '%');
             // $query->where(function ($query) use ($word) {
             //     $query->whereHas('city', function ($q) use ($word) {
             //         $q->where('name_en', 'LIKE', '%' . $word . '%')

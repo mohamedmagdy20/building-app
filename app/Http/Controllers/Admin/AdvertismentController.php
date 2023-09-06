@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Utils\Notification;
 use App\Models\Advertisment;
 use Illuminate\Http\Request;
-use Notification;
 use Yajra\DataTables\Facades\DataTables;
 
 class AdvertismentController extends Controller
 {
     //
     public $model;
-    protected $notification;
-    public function __construct(Advertisment $model , Notification $notification)
+    public $notification;
+    public function __construct(Advertisment $model, Notification $notification)
     {
         $this->model = $model;
         $this->notification = $notification;
@@ -55,7 +55,6 @@ class AdvertismentController extends Controller
     {
         $user =  $this->model->findOrFail($request->id);
         $user->update(['abroved'=>false]);
-
         $this->notification->send('reject',$request->id,$user->notification_token);
         
         return response()->json(['status'=>true]);

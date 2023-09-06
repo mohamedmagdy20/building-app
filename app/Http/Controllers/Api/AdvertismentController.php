@@ -13,6 +13,7 @@ use App\Models\AdsFavorite;
 use App\Models\Advertisment;
 use App\Models\AdvertismentImage;
 use App\Models\Draft;
+use App\Models\SearchLogs;
 use App\Traits\FilesTrait;
 use Exception;
 use Illuminate\Http\Request;
@@ -25,11 +26,13 @@ class AdvertismentController extends Controller
     protected $model;
     protected $modelImage;
     protected $adsFavorite;
-    public function __construct(Advertisment $model , AdvertismentImage $modelImage, AdsFavorite $adsFavorite)
+    protected $searchLogs;
+    public function __construct(Advertisment $model , AdvertismentImage $modelImage,SearchLogs $searchLogs, AdsFavorite $adsFavorite)
     {
         $this->model = $model;
         $this->adsFavorite=  $adsFavorite;
         $this->modelImage =$modelImage;
+        $this->searchLogs = $searchLogs;
     }
     public function store(AdvertismentRequest $request)
     {
@@ -90,6 +93,11 @@ class AdvertismentController extends Controller
         $data = $this->model->with('category')->find($request->get('id'));
         if($data)
         {
+            // insert in search log
+            $userSearch = $this->searchLogs->where('user_id',auth()->user()->id)->latest()->first();
+            $userSearch->update(['advertisment_id'=>$data->id]);
+            // 
+            
             switch ($data->category->type) {
                 case 'lands':
                     $resources = new LandResource($data);   
@@ -158,13 +166,17 @@ class AdvertismentController extends Controller
     public function index(Request $request)
     {
         $data = $this->model->orderByRaw("FIELD(ads_type, 'fixed', 'normal')")->filter($request->all())->where('abroved',true)->latest()->simplePaginate(7);
+        if($request->q)
+        {
+            SearchLogs::create(['keyword'=>$request->q,'user_id'=>auth()->user()->id]);
+        }
         return response()->json([
             'status'=>200,
             'message'=>'Success',
             'data'=>AdvertismentResource::collection($data)
         ], 200);
     }
-
+ 
     public function update(AdvertismentRequest $request,$id)
     {
         $data = $request->validated();
