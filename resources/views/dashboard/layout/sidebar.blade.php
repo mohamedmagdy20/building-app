@@ -80,7 +80,7 @@
       
                   @endif
                 
-                  @if (auth()->user()->hasRole('Show_Search_History'))
+                  @if (auth()->user()->hasPermissionTo('Show_Search_History'))
                   <li>
                     <a href="{{route('admin.search.logs.index')}}" class=" waves-effect">
                         <i class="ri-file-search-fill"></i>
@@ -90,7 +90,7 @@
                       
                 @endif
                 
-                @if (auth()->user()->hasRole('Show_Plans'))
+                @if (auth()->user()->hasPermissionTo('Show_Plans'))
                 <li>
                     <a href="{{route('admin.plans.index')}}" class=" waves-effect">
                         <i class="ri-product-hunt-line"></i>
