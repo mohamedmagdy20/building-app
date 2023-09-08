@@ -79,7 +79,7 @@ class ApiAuthController extends Controller
                 'data'=> NULL
             ]);
         }
-        $user = User::where('email', '=', $request->email)->first();
+        $user = User::where('phone', '=', $request->email)->first();
         $user->update(['notification_token'=>$request->notification_token]);
         $new_access_token = Str::random(64);
         $user->update([

@@ -49,7 +49,7 @@ class Notification{
         curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
     
         $response = curl_exec($ch);
-
+        
         \App\Models\Notification::create([
             'user_id'=>$id,
             'type'=>$type,

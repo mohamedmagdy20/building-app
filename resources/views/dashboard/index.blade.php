@@ -19,6 +19,8 @@
 </div>
 <!-- end page title -->
 
+@if (auth()->user()->hasPermissionTo('Show_Statictics'))
+
 <div class="row">
     <div class="col-xl-4 col-md-6">
         <div class="card">
@@ -144,7 +146,8 @@
     </div> 
 
 </div>
-<!-- end row -->
+<!-- end row -->    
+@endif
 
 
 @endsection

@@ -43,6 +43,9 @@ class AdvertismentController extends Controller
         ->editColumn('abroved',function($data){
             return view('dashboard.advertisments.action',['type'=>'abroved','data'=>$data]);
         })
+        ->editColumn('is_expire',function($data){
+            return view('dashboard.advertisments.action',['type'=>'is_expire','data'=>$data]);
+        })
         ->addColumn('image',function($data){
             return view('dashboard.advertisments.action',['type'=>'image','data'=>$data]);  
         })
@@ -52,9 +55,8 @@ class AdvertismentController extends Controller
     public function accept(Request $request)
     {
         $data =  $this->model->findOrFail($request->id);
-
-        $this->notification->send('accept',$request->id,$data->user->notification_token);
-        return response()->json(['status'=>true]);
+        $result =  $this->notification->send('accept',$request->id,$data->user->notification_token);
+        return response()->json(['status'=>true,'result'=>$result]);
     }
 
     public function block(Request $request)

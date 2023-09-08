@@ -32,6 +32,13 @@
         @endif
    
     @break
+    @case('is_expire')
+        @if ($data->is_expire == 0)
+            <span class="btn btn-sm btn-success">Not Expire</span>
+        @else
+            <span class="btn btn-sm btn-danger">Expire</span>
+        @endif
+    @break
     @default
         
 @endswitch

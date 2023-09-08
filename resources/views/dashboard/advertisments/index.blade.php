@@ -112,7 +112,7 @@ function DataTables() {
                 data: 'ads_type'
             },
             {
-                data: 'location'
+                data: 'is_expire'
             },
             {
                 data: 'abroved'

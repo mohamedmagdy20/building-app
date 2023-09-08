@@ -27,13 +27,16 @@
                     </a>
                 </li>
 
+                @if (auth()->user()->hasPermissionTo('Show_Admins'))
                 <li>
                     <a href="{{route('admin.users.index')}}" class=" waves-effect">
                         <i class="fa fa-user"></i>
                         <span>Admins</span>
                     </a>
                 </li>
-
+                @endif
+               
+                @if (auth()->user()->hasPermissionTo('Show_Roles'))
                 <li>
                     <a href="{{route('admin.role.index')}}" class=" waves-effect">
                         <i class="ri-bar-chart-line"></i>
@@ -41,7 +44,10 @@
                     </a>
                 </li>
 
+                @endif
+             
 
+                @if (auth()->user()->hasPermissionTo('Show_Users'))
                 
                 <li>
                     <a href="{{route('admin.user.index')}}" class=" waves-effect">
@@ -49,7 +55,9 @@
                         <span>Users</span>
                     </a>
                 </li>
+                @endif
 
+                @if(auth()->user()->hasPermissionTo('Show_Advertises'))
                 <li>
                     <a href="{{route('admin.Advertise.index')}}" class=" waves-effect">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-badge-ad-fill" viewBox="0 0 16 16">
@@ -60,51 +68,67 @@
                     </a>
                 </li>
 
-                  
-                <li>
+                @endif
+
+                  @if (auth()->user()->hasPermissionTo('Show_Advertisments'))
+                  <li>
                     <a href="{{route('admin.advertisment.index')}}" class=" waves-effect">
                         <i class="ri-eraser-fill"></i>
                         <span>Advertisments</span>
                     </a>
                 </li>
-
-                <li>
+      
+                  @endif
+                
+                  @if (auth()->user()->hasRole('Show_Search_History'))
+                  <li>
                     <a href="{{route('admin.search.logs.index')}}" class=" waves-effect">
                         <i class="ri-file-search-fill"></i>
                         <span>Search History</span>
                     </a>
                 </li>
+                      
+                @endif
                 
+                @if (auth()->user()->hasRole('Show_Plans'))
                 <li>
                     <a href="{{route('admin.plans.index')}}" class=" waves-effect">
                         <i class="ri-product-hunt-line"></i>
                         <span>Plans</span>
                     </a>
-                </li>
+                </li>    
+                @endif
+                
 
 
+                @if(auth()->user()->hasPermissionTo('Show_Areas'))
                 <li>
                     <a href="{{route('admin.areas.index')}}" class=" waves-effect">
                         <i class=" ri-pin-distance-fill"></i>
                         <span>Areas</span>
                     </a>
                 </li>
+                @endif
 
-                
+                @if (auth()->user()->hasPermissionTo('Show_Category'))
+
                 <li>
                     <a href="{{route('admin.category.index')}}" class=" waves-effect">
                         <i class="  ri-creative-commons-line"></i>
                         <span>Category</span>
                     </a>
-                </li>
+                </li>                    
+                @endif
 
-                 
+                
+                @if(auth()->user()->hasPermissionTo('Show_Settings'))
                 <li>
                     <a href="{{route('admin.setting.index')}}" class=" waves-effect">
                         <i class="ri-pencil-ruler-2-line"></i>
                         <span>Settings</span>
                     </a>
                 </li>
+                @endif
                 
 {{-- 
                 <li>
