@@ -34,7 +34,7 @@
                             <th>Area</th>
                             <th>Type</th>
                             <th>Advertisment Type</th>
-                            <th>Location</th>
+                            <th>Is Expire</th>
                             <th>Status</th>
                            <th>Action</th>
                         </tr>
