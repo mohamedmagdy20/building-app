@@ -27,16 +27,16 @@
                     </a>
                 </li>
 
-                @if (auth()->user()->hasPermissionTo('Show_Admins'))
+                {{-- @if (auth()->user()->hasPermissionTo('Show_Admins')) --}}
                 <li>
                     <a href="{{route('admin.users.index')}}" class=" waves-effect">
                         <i class="fa fa-user"></i>
                         <span>Admins</span>
                     </a>
                 </li>
-                @endif
-               
-                @if (auth()->user()->hasPermissionTo('Show_Roles'))
+                {{-- @endif --}}
+
+                {{-- @if (auth()->user()->hasPermissionTo('Show_Roles')) --}}
                 <li>
                     <a href="{{route('admin.role.index')}}" class=" waves-effect">
                         <i class="ri-bar-chart-line"></i>
@@ -44,11 +44,11 @@
                     </a>
                 </li>
 
-                @endif
-             
+                {{-- @endif --}}
+
 
                 @if (auth()->user()->hasPermissionTo('Show_Users'))
-                
+
                 <li>
                     <a href="{{route('admin.user.index')}}" class=" waves-effect">
                         <i class="ri-account-circle-line"></i>
@@ -77,9 +77,9 @@
                         <span>Advertisments</span>
                     </a>
                 </li>
-      
+
                   @endif
-                
+
                   @if (auth()->user()->hasRole('Show_Search_History'))
                   <li>
                     <a href="{{route('admin.search.logs.index')}}" class=" waves-effect">
@@ -87,18 +87,18 @@
                         <span>Search History</span>
                     </a>
                 </li>
-                      
+
                 @endif
-                
+
                 @if (auth()->user()->hasRole('Show_Plans'))
                 <li>
                     <a href="{{route('admin.plans.index')}}" class=" waves-effect">
                         <i class="ri-product-hunt-line"></i>
                         <span>Plans</span>
                     </a>
-                </li>    
+                </li>
                 @endif
-                
+
 
 
                 @if(auth()->user()->hasPermissionTo('Show_Areas'))
@@ -117,10 +117,10 @@
                         <i class="  ri-creative-commons-line"></i>
                         <span>Category</span>
                     </a>
-                </li>                    
+                </li>
                 @endif
 
-                
+
                 @if(auth()->user()->hasPermissionTo('Show_Settings'))
                 <li>
                     <a href="{{route('admin.setting.index')}}" class=" waves-effect">
@@ -129,8 +129,8 @@
                     </a>
                 </li>
                 @endif
-                
-{{-- 
+
+{{--
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-mail-send-line"></i>
