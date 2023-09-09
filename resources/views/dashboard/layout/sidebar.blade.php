@@ -79,8 +79,13 @@
                 </li>
 
                   @endif
+<<<<<<< HEAD
 
                   @if (auth()->user()->hasRole('Show_Search_History'))
+=======
+                
+                  @if (auth()->user()->hasPermissionTo('Show_Search_History'))
+>>>>>>> e8da2e2f375bacc5307e44c9aae8acc1f3bb529a
                   <li>
                     <a href="{{route('admin.search.logs.index')}}" class=" waves-effect">
                         <i class="ri-file-search-fill"></i>
@@ -89,8 +94,13 @@
                 </li>
 
                 @endif
+<<<<<<< HEAD
 
                 @if (auth()->user()->hasRole('Show_Plans'))
+=======
+                
+                @if (auth()->user()->hasPermissionTo('Show_Plans'))
+>>>>>>> e8da2e2f375bacc5307e44c9aae8acc1f3bb529a
                 <li>
                     <a href="{{route('admin.plans.index')}}" class=" waves-effect">
                         <i class="ri-product-hunt-line"></i>

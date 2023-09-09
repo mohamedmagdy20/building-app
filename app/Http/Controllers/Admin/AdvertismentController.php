@@ -55,14 +55,15 @@ class AdvertismentController extends Controller
     public function accept(Request $request)
     {
         $data =  $this->model->findOrFail($request->id);
-        $result =  $this->notification->send('accept',$request->id,$data->user->notification_token);
+        $result =  $this->notification->send('accept',$data->user->id,$data->user->notification_token,$data->id);
+        $data->update(['abroved'=>true]);
         return response()->json(['status'=>true,'result'=>$result]);
     }
 
     public function block(Request $request)
     {
         $data =  $this->model->findOrFail($request->id);
-        $this->notification->send('reject',$request->id,$data->user->notification_token);
+        $this->notification->send('reject',$data->user->id,$data->user->notification_token,$data->id);
 
         foreach($data->adsImage as $item)
         {

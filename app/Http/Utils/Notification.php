@@ -2,16 +2,14 @@
 
 namespace App\Http\Utils;
 class Notification{
-    public static function send($type,$id,$token){
+    public static function send($type,$id,$token,$ads_id){
         
         $SERVER_API_KEY = config('app.FCM_KEY');
 
         $message = $type == 'accept' ? 'Congratulations, your advertisement request has been approved' : 'Unfortunately, your request to publish the advertisement has been rejected. Please try again';
         $data = [
     
-            "to" => [
-                $token
-            ],
+            "to" =>$token,
     
             "notification" => [
     
@@ -21,6 +19,10 @@ class Notification{
     
                 "sound"=> "default" // required for sound on ios
     
+            ],
+            "data"=>[
+              "ads_id"=>$ads_id,
+               "type"=>$type,
             ],
     
         ];
@@ -49,9 +51,10 @@ class Notification{
         curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
     
         $response = curl_exec($ch);
-        
+
         \App\Models\Notification::create([
             'user_id'=>$id,
+            'advertisment_id'=>$ads_id,
             'type'=>$type,
             'message'=>$message
         ]);
