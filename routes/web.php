@@ -55,14 +55,14 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
 
     Route::group(['controller'=>RoleController::class,'prefix'=>'roles'],function () {
         $prefix = 'admin.';
-        Route::get('','index')->middleware('permission:Show_Roles')->name($prefix.'role.index');
+        Route::get('','index')->name($prefix.'role.index');
     });
 
 
     Route::group(['controller'=>PermissionController::class,'prefix'=>'permissions'],function () {
         $prefix = 'admin.';
-        Route::get('{id}/','index')->middleware('permission:Show_Permission')->name($prefix.'permission.index');
-        Route::post('{id}/update','update')->middleware('permission:Edit_Permission')->name($prefix.'permission.update');
+        Route::get('{id}/','index')->name($prefix.'permission.index');
+        Route::post('{id}/update','update')->name($prefix.'permission.update');
     });
 
     Route::group(['controller'=>UserController::class,'prefix'=>'users'],function () {
@@ -132,7 +132,7 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
     });
 
 
-    
+
     Route::group(['controller'=>AreaController::class,'prefix'=>'areas'],function(){
         $prefix = 'admin.areas.';
         Route::get('/','index')->middleware('permission:Show_Areas')->name($prefix.'index');
