@@ -103,6 +103,7 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
         Route::get('accept','accept')->middleware('permission:Accept_Advertisments')->name($prefix.'accept');
         Route::get('block','block')->middleware('permission:Block_Advertisments')->name($prefix.'block');
         Route::get('{id}/show','show')->middleware('permission:Show_Advertisments')->name($prefix.'show');
+        Route::get('delete/{id}','forceDelete')->middleware('permission:Block_Advertisments')->name($prefix.'delete');
     });
 
     Route::group(['controller'=>HomeController::class,'middleware'=>'permission:Show_Statictics'],function(){

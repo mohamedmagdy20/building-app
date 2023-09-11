@@ -169,5 +169,42 @@
     });
 
 </script>
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+<script>
+    Pusher.logToConsole = true;
+    var pusher = new Pusher('320341d0c095a088f06b', {
+      cluster: 'ap1'
+    });
+    var channel = pusher.subscribe('dashboard-notification');
+    channel.bind('dashboard.notification.sent', function(data) {
+    //   alert(JSON.stringify(data.user.name));
+        addItems(data)
+        toastr.info('New Advertisment Added', 'info');
+    });
+
+
+    function addItems(data)
+    {
+        const list = document.getElementById('notification-list')
+        const item = data
+        const dom = `
+            <a href="{{url('admin/advertisment/${item.advertisment.id}/show')}}" class="text-reset notification-item">
+                <div class="d-flex">
+                    <img src="{{asset('assets/images/users/person.jpg')}}"
+                        class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                    <div class="flex-1">
+                        <h6 class="mb-1">New Advertisment Added</h6>
+                        <div class="font-size-12 text-muted">
+                            <p class="mb-1">${item.advertisment.title} Has Make New Advertisment</p>
+                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i>${item.advertisment.created_at}</p>
+                        </div>
+                    </div>
+                </div>
+            </a>     
+            ` 
+            list.innerHTML  += dom
+
+    }
+</script>
     @yield('scripts')
 </body>

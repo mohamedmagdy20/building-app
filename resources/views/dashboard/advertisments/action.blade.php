@@ -1,10 +1,13 @@
 @switch($type)
     @case('action')
         <a href="{{route('admin.advertisment.show',$data->id)}}" class="btn btn-info"><i class="fa fa-eye"></i></a>
-        @if ($data->abroved == false)
-            <a class="btn btn-success" onclick="Abrove({{$data->id}},event)"><i class="fa fa-check"></i></a>        
-        @else
+        
+        @if ($data->abroved == false && $data->deleted_at == null)
             <a class="btn btn-danger text-bold" onclick="Block({{$data->id}},event)" >X</a>        
+            <a class="btn btn-success" onclick="Abrove({{$data->id}},event)"><i class="fa fa-check"></i></a>        
+        @endif
+        @if($data->deleted_at != null)
+            <a href="{{route('admin.advertisment.delete',$data->id)}}" class="delete-confirm btn btn-danger"><i class="fa fa-trash"></i></a>
         @endif
         @break
     @case('image')

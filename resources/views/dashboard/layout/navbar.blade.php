@@ -118,7 +118,7 @@
                             </div>
                         </div>
                     </div>
-                    <div data-simplebar style="max-height: 230px;">
+                    <div data-simplebar style="max-height: 230px;" id="notification-list">
                       {{-- @foreach ($advertisments as $index =>  $item ) --}}
                       {{-- <a href="{{route('admin.advertisment.index')}}" class="text-reset notification-item">
                         <div class="d-flex">

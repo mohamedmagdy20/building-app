@@ -28,7 +28,7 @@ class AdvertismentController extends Controller
 
     public function data(Request $request)
     {
-        $data = $this->model->with('category')->with('user')->with('area')->filter($request->all())->latest();
+        $data = $this->model->withTrashed()->with('category')->with('user')->with('area')->filter($request->all())->latest();
         if(! auth()->user()->hasRole('SuperAdmin'))
         {
             $data->where('ads_type','!=','draft');
@@ -80,5 +80,17 @@ class AdvertismentController extends Controller
         return view('dashboard.advertisments.show',['data'=>$data]);
     }
 
-
+    public function forceDelete($id)
+    {
+        $data = $this->model->withTrashed()->findOrFail($id);
+        if($data->adsImage !=null)
+        {
+            foreach($data->adsImage as $item)
+            {
+                $this->deleteFile($item->image,config('filepath.ADS_PATH'));
+            }
+        }
+        $data->forceDelete();
+        return redirect()->back()->with('success','Deleted');
+    }
 }

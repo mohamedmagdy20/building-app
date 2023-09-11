@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Advertisment extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = 'advertisments';
     public $timestamps = true;
     protected $fillable = 

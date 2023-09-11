@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\NotificationEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdvertismentRequest;
 use App\Http\Resources\AdvertismentResource;
@@ -70,6 +71,9 @@ class AdvertismentController extends Controller
                 $imageName = $this->saveFile($request->file('image_5'),config('filepath.ADS_PATH'));
                 $this->modelImage->create(['advertisment_id'=>$ads->id,'image'=>$imageName]);
             }
+
+            // fire notification event 
+            event(new NotificationEvent($ads));
 
             DB::commit();
             return response()->json([

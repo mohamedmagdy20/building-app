@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdvertiseController;
 use App\Http\Controllers\Api\AdvertismentController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\DraftController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PlanController;
@@ -69,8 +70,15 @@ Route::middleware([EnsureTokenIsValid::class])->group(function () {
         /* Route For Advertisements Module */
         Route::get('/','AllAdvertises');
     });
-    /** -----------------End Of Routes-------------------------------------- **/
 
+    
+    Route::group(['controller'=>ChatController::class,'prefix'=>'chat'],function(){
+        Route::get('/','getMessagesChat');
+        Route::post('create-chat','createChat');
+        Route::post('send-message','sendMessage'); 
+    });
+
+    /** -----------------End Of Routes-------------------------------------- **/
 
 });
 
