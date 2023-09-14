@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AreaRequest;
+use App\Imports\AreaImport;
 use App\Models\Area;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AreaController extends Controller
 {
@@ -47,6 +49,16 @@ class AreaController extends Controller
         $data= $request->validated();
         $this->model->findOrFail($id)->update($data);
         return redirect()->back()->with('success','Updated');
+    }
+
+    public function uploadAreas(Request $request)
+    {
+        $request->validate(['file'=>'required|file']);
+        if($request->hasFile('file'))
+        {
+            Excel::import(new AreaImport, $request->file);
+            return redirect()->route('admin.areas.index')->with('success', 'Areas Uploaded');
+        }
     }
     
 }

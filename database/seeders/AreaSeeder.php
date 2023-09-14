@@ -155,7 +155,7 @@ class AreaSeeder extends Seeder
 
         for($i=0;$i<count($data);$i++)
         {
-            Area::create(['name_ar'=>$data[$i],'name_en'=>$data[$i]]);
+            Area::create(['name_ar'=>$data[$i],'name_en'=>$data[$i],'price'=>20]);
         }
     }
 }

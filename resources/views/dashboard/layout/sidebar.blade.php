@@ -79,13 +79,8 @@
                 </li>
 
                   @endif
-<<<<<<< HEAD
-
-                  @if (auth()->user()->hasRole('Show_Search_History'))
-=======
                 
                   @if (auth()->user()->hasPermissionTo('Show_Search_History'))
->>>>>>> e8da2e2f375bacc5307e44c9aae8acc1f3bb529a
                   <li>
                     <a href="{{route('admin.search.logs.index')}}" class=" waves-effect">
                         <i class="ri-file-search-fill"></i>
@@ -94,13 +89,8 @@
                 </li>
 
                 @endif
-<<<<<<< HEAD
-
-                @if (auth()->user()->hasRole('Show_Plans'))
-=======
                 
                 @if (auth()->user()->hasPermissionTo('Show_Plans'))
->>>>>>> e8da2e2f375bacc5307e44c9aae8acc1f3bb529a
                 <li>
                     <a href="{{route('admin.plans.index')}}" class=" waves-effect">
                         <i class="ri-product-hunt-line"></i>
@@ -126,6 +116,25 @@
                     <a href="{{route('admin.category.index')}}" class=" waves-effect">
                         <i class="  ri-creative-commons-line"></i>
                         <span>Category</span>
+                    </a>
+                </li>
+                @endif
+
+                
+                @if (auth()->user()->hasPermissionTo('Show_Calculation'))
+                <li>
+                    <a href="{{route('admin.calculation.index')}}" class=" waves-effect">
+                        <i class="ri-calculator-line"></i>
+                        <span>Calculation</span>
+                    </a>
+                </li>
+                @endif
+
+                @if (auth()->user()->hasPermissionTo('Show_Site_Specfications'))
+                <li>
+                    <a href="{{route('admin.specifications.index')}}" class=" waves-effect">
+                        <i class="ri-calculator-line"></i>
+                        <span>Location Specfication</span>
                     </a>
                 </li>
                 @endif

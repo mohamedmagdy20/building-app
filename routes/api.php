@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdvertiseController;
+use App\Http\Controllers\Admin\SpecficationController;
 use App\Http\Controllers\Api\AdvertismentController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ChatController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Api\DraftController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\CalculationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ApiAuthController;
@@ -76,8 +78,12 @@ Route::middleware([EnsureTokenIsValid::class])->group(function () {
         Route::get('/','getMessagesChat');
         Route::post('create-chat','createChat');
         Route::post('send-message','sendMessage'); 
+        Route::get('messages','getMessages');
     });
 
+
+    Route::post('calc',[CalculationController::class,'calculate']);
+    Route::get('get-specifications',[SpecficationController::class,'getData']);
     /** -----------------End Of Routes-------------------------------------- **/
 
 });

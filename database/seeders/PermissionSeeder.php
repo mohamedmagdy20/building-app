@@ -157,6 +157,31 @@ class PermissionSeeder extends Seeder
                 'name'=>'Delete_Category',
                 'guard_name'=>'admin'
             ],
+            [
+                'name'=>'Show_Calculation',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Update_Calculation',
+                'guard_name'=>'admin'
+            ],
+
+            [
+                'name'=>'Show_Site_Specfications',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Add_Site_Specfications',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Edit_Site_Specfications',
+                'guard_name'=>'admin'
+            ],
+            [
+                'name'=>'Delete_Site_Specfications',
+                'guard_name'=>'admin'
+            ],
         ];
 
         foreach($data as $d)

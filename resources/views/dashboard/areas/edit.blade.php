@@ -45,6 +45,16 @@
                             @enderror
                         </div>
 
+                        <div class="col-md-12">
+                            <label for="example-text-input" class="col-sm-2 col-form-label">Price In This Area </label>
+        
+                                <input class="form-control" type="text" name="price" placeholder="Enter Price"
+                                    id="example-text-input" value="{{ old('price',$data->price) }}" required>
+                                @error('price')
+                                    <span class="text-danger mt-2">{{ $message }}</span>
+                                @enderror
+                        </div>
+
                 <!-- end row -->
                 </div>
                 <button type="submit" id="submit" class="btn btn-info waves-effect waves-light"

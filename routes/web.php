@@ -10,7 +10,9 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SpecficationController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\CalculationController;
 use App\Http\Controllers\SearchLosController;
 use App\Http\Controllers\SettingController;
 use App\Models\Advertisment;
@@ -28,16 +30,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/',[HomeController::class,'index'])->middleware('auth:admin')->name('admin.home');
 
 Route::get('admin/login',[AuthController::class,'loginView'])->middleware('guest:admin')->name('admin.login.view');
 Route::post('admin/login',[AuthController::class,'login'])->middleware('guest:admin')->name('admin.login');
 
 Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
 
-    Route::get('/',[HomeController::class,'index'])->name('admin.home');
+    // Route::get('/',[HomeController::class,'index'])->name('admin.home');
 
     Route::get('logout',[AuthController::class,'logout'])->name('admin.logout');
 
@@ -69,8 +73,8 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
         $prefix = 'admin.user';
         Route::get('/','index')->middleware('permission:Show_Users')->name($prefix.'.index');
         Route::get('data','data')->middleware('permission:Show_Users')->name($prefix.'.data');
-        Route::get('delete','toggleActive')->middleware('permission:Delete_Users')->name($prefix.'.delete');
-        Route::get('force-delete/{id}','delete')->middleware('permission:Delete_Users')->name($prefix.'.force.delete');
+        Route::get('delete','toggleActive')->middleware('permission:Delete_User')->name($prefix.'.delete');
+        Route::get('force-delete/{id}','delete')->middleware('permission:Delete_User')->name($prefix.'.force.delete');
 
         Route::get('show/{id}','show')->middleware('permission:Show_Users')->name($prefix.'.show');
         Route::get('update-points','updatePoints')->middleware('permission:Edit_Users')->name($prefix.'.update-points');
@@ -141,6 +145,7 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
         Route::get('/edit/{id}','edit')->middleware('permission:Edit_Areas')->name($prefix.'edit');
         Route::post('/update/{id}','update')->middleware('permission:Edit_Areas')->name($prefix.'update');
         Route::get('/delete/{id}','delete')->middleware('permission:Delete_Areas')->name($prefix.'delete');
+        Route::post('upload-file','uploadAreas')->middleware('permission:Add_Areas')->name($prefix.'upload-excel');
     });
 
     Route::group(['controller'=>CategoryController::class,'prefix'=>'category'],function(){
@@ -151,5 +156,21 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
         Route::get('/edit/{id}','edit')->middleware('permission:Edit_Category')->name($prefix.'edit');
         Route::post('/update/{id}','update')->middleware('permission:Edit_Category')->name($prefix.'update');
         Route::get('/delete/{id}','delete')->middleware('permission:Delete_Category')->name($prefix.'delete');
+    });
+
+    Route::group(['controller'=>CalculationController::class,'prefix'=>'calculation'],function(){
+        $prefix = 'admin.calculation.';
+        Route::get('/','index')->middleware('permission:Show_Calculation')->name($prefix.'index');
+        Route::get('/update','update')->middleware('permission:Update_Calculation')->name($prefix.'update');
+      });
+
+    Route::group(['controller'=>SpecficationController::class,'prefix'=>'location-specification'],function(){
+        $prefix = 'admin.specifications.';
+        Route::get('/','index')->middleware('permission:Show_Site_Specfications')->name($prefix.'index');
+        Route::get('/create','create')->middleware('permission:Add_Site_Specfications')->name($prefix.'create');
+        Route::post('/store','store')->middleware('permission:Add_Site_Specfications')->name($prefix.'store');
+        Route::get('/edit/{id}','edit')->middleware('permission:Edit_Site_Specfications')->name($prefix.'edit');
+        Route::post('/update/{id}','update')->middleware('permission:Edit_Site_Specfications')->name($prefix.'update');
+        Route::get('/delete/{id}','delete')->middleware('permission:Delete_Site_Specfications')->name($prefix.'delete');
     });
 });

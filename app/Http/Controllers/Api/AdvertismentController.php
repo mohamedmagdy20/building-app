@@ -138,7 +138,9 @@ class AdvertismentController extends Controller
             {
                 $resources = new ArchitectureResource($data);   
             }
-            $request->visitor()->visit($data);
+          
+            $request->visitor()->setVisitor($data)->visit($data);
+
             return response()->json(
                 [
                     'status'=>200,
