@@ -49,6 +49,10 @@ class AdvertismentController extends Controller
         ->addColumn('image',function($data){
             return view('dashboard.advertisments.action',['type'=>'image','data'=>$data]);  
         })
+        ->addColumn('edit_type',function($data){
+            return view('dashboard.advertisments.action',['type'=>'edit_type','data'=>$data]);  
+
+        })
         ->make(true);
     }
 
@@ -78,6 +82,17 @@ class AdvertismentController extends Controller
     {
         $data = $this->model->findOrFail($id);
         return view('dashboard.advertisments.show',['data'=>$data]);
+    }
+
+    public function update(Request $request)
+    {
+        $data = $this->model->findOrFail($request->get('id'));
+        $data->update([
+            'ads_type'=>$request->get('type') 
+        ]);
+        return response()->json([
+            'status'=>true,
+        ]);
     }
 
     public function forceDelete($id)

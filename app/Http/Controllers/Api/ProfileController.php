@@ -66,5 +66,15 @@ class ProfileController extends Controller
             ]
             );
     }
+
+    public function userPoint(Request $request)
+    {
+        $user = $this->model->find($this->auth($request->access_token)->id);
+        return response()->json([
+            'data'=>$user->points,
+            'status'=>200,
+            'message'=>'success'
+        ]);
+    }
     
 }

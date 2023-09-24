@@ -31,8 +31,9 @@ class ChatController extends Controller
         try{
             DB::beginTransaction();
             $isChatExist =  $this->chat->where('user_id',$this->auth($request->access_token)->id)->where('user_to_id',$data['user_to_id'])->first();
-            if(!$isChatExist)
-            {
+            $isChatExistToAnother = $this->chat->where('user_id',$data['user_to_id'])->where('user_to_id',$this->auth($request->access_token)->id)->first();
+            if(!$isChatExist && !$isChatExistToAnother)
+            {                
                 $chat =  $this->chat->create(array_merge($data,['user_id'=>$this->auth($request->access_token)->id]) );
             }else{
                 return response()->json([

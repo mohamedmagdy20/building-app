@@ -49,6 +49,7 @@ Route::middleware([EnsureTokenIsValid::class])->group(function () {
     Route::group(['controller'=>ProfileController::class,'prefix'=>'profile'],function(){
         Route::get('/','profile');
         Route::post('update','update');
+        Route::get('points','userPoint');
     });
 
     Route::group(['controller'=>AdvertismentController::class,'prefix'=>'advertisment'],function(){

@@ -30,6 +30,8 @@
     @case('abroved')
         @if($data->abroved == true)
             <span class="btn btn-sm btn-success">Abroved</span>
+        @elseif ($data->deleted_at != null)
+          <span class="btn btn-sm btn-danger">Deleted</span>
         @else
             <span class="btn btn-sm btn-secondary">Not Abroved</span>
         @endif
@@ -41,6 +43,15 @@
         @else
             <span class="btn btn-sm btn-danger">Expire</span>
         @endif
+    @break
+    @case('edit_type')
+    <select name="ads_type" class="form-control"  {{$data->deleted_at != null ? 'disabled' : ''}} onchange="updateType({{$data->id}},event)" id="">
+        <option value="normal" {{$data->ads_type == 'normal' ? 'selected' : ''}}>Normal</option>
+        <option value="special" {{$data->ads_type == 'special' ? 'selected' : ''}}>Special</option>
+        <option value="fixed" {{$data->ads_type == 'fixed' ? 'selected' : ''}}>Fixed</option>
+        <option value="draft" {{$data->ads_type == 'draft' ? 'selected' : ''}}>Draft</option>
+    
+    </select>
     @break
     @default
         

@@ -17,7 +17,9 @@ use App\Http\Controllers\SearchLosController;
 use App\Http\Controllers\SettingController;
 use App\Models\Advertisment;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cache;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +35,11 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-
+Route::get('/optimize',function(){
+    Artisan::call('optimize');
+    // Clear the Spatie Permission cache key
+    Cache::forget('spatie.permission.cache');
+});
 Route::get('/',[HomeController::class,'index'])->middleware('auth:admin')->name('admin.home');
 
 Route::get('admin/login',[AuthController::class,'loginView'])->middleware('guest:admin')->name('admin.login.view');
@@ -108,6 +114,7 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
         Route::get('block','block')->middleware('permission:Block_Advertisments')->name($prefix.'block');
         Route::get('{id}/show','show')->middleware('permission:Show_Advertisments')->name($prefix.'show');
         Route::get('delete/{id}','forceDelete')->middleware('permission:Block_Advertisments')->name($prefix.'delete');
+        Route::get('update-type','update')->middleware('permission:Block_Advertisments')->name($prefix.'update-type');
     });
 
     Route::group(['controller'=>HomeController::class,'middleware'=>'permission:Show_Statictics'],function(){

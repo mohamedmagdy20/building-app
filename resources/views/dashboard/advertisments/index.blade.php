@@ -36,6 +36,7 @@
                             <th>Advertisment Type</th>
                             <th>Is Expire</th>
                             <th>Status</th>
+                            <th>Edit Type</th>
                            <th>Action</th>
                         </tr>
                     </thead>
@@ -118,6 +119,9 @@ function DataTables() {
                 data: 'abroved'
             },
             {
+                data: 'edit_type'
+            },
+            {
                 data: 'action'
             },
         ],
@@ -169,6 +173,28 @@ function Block(id,e)
         },
         error:function(result){
             e.target.classList.remove('disable');
+
+            console.log(result);
+            toastr.error('Error Accure', 'Error');  
+
+        }
+    });
+}
+
+
+function updateType(id,e)
+{
+    type = e.target.value;
+    $.ajax({
+        type: 'GET',
+        url: "{{route('admin.advertisment.update-type')}}",
+        data: {id:id,type:type},
+        dataType: 'JSON',
+        success: function (results) {
+            toastr.success('Advertisment Updated', 'success');
+            DataTable.ajax.reload()
+        },
+        error:function(result){
 
             console.log(result);
             toastr.error('Error Accure', 'Error');  

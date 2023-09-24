@@ -185,15 +185,7 @@ class Advertisment extends Model
         {
             $word = $params['q'];
             $query->where('number',$word)->orWhere('price',$word)->orWhere('space',$word)->orWhere('title','LIKE', '%' . $word . '%');
-            // $query->where(function ($query) use ($word) {
-            //     $query->whereHas('city', function ($q) use ($word) {
-            //         $q->where('name_en', 'LIKE', '%' . $word . '%')
-            //           ->orWhere('name_ar', 'LIKE', '%' . $word . '%');
-            //     })->orWhereHas('category', function ($q) use ($word) {
-            //         $q->where('name_en', 'LIKE', '%' . $word . '%')
-            //           ->orWhere('name_ar', 'LIKE', '%' . $word . '%');
-            //     });
-            // });
+         
         }
         return $query;
     }
