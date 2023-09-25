@@ -16,15 +16,17 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'=>$this->id,
             'name'=>$this->name,
             'email'=>$this->email,
-            'image'=>$this->image ? asset('public/uploads/users/'.$this->image) : null,
+            'image'=>$this->image ? asset('users/'.$this->image) : null,
             'phone'=>$this->phone,
             'type'=>$this->type,
             'access_token'=>$this->access_token,
             'account_type'=>$this->account_type,
             'point'=>$this->points,
             'plan'=>$this->plan,
+            'notification_token'=>$this->notification_token,
             'created_at'=>Carbon::parse($this->created_at)->format('Y M D'),
             'updated_at'=>Carbon::parse($this->updated_at)->format('Y M D'),
         ];

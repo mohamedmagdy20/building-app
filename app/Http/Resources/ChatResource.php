@@ -19,6 +19,12 @@ class ChatResource extends JsonResource
             'user_id'=>$this->user_id,
             'user_to_id'=>$this->user_to_id,
             'chat_with'=>new ChatWithResource($this->reciver),
+            'profile'=>new ChatWithResource($this->user),
+
+            // [
+            //     'name'=>$this->reciver->name,
+            //     'image'=>$this->reciver->image != null ?asset('public/uploads/users/'.$this->reciver->image) : asset('assets/images/users/person.jpg')
+            // ],
             'messages'=>new MessageResource($this->lastMessage),
         ];
     }

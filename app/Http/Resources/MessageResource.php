@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Carbon\Carbon;
 class MessageResource extends JsonResource
 {
     /**
@@ -16,7 +16,9 @@ class MessageResource extends JsonResource
     {
         return [
             'sender'=>$this->sender_id,
-            'message'=>$this->message
+            'message'=>$this->message,
+            'date'=>Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
+            
         ];
     }
 }

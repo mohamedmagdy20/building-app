@@ -32,6 +32,8 @@ class CommercialResource extends JsonResource
             'area_id'=>$this->area->id,
             'category_type_id'=>$index+1,
             'phone'=>$this->user->phone,
+            'user_id'=>$this->user->id,
+            'profile_image'=>$this->user->image ? asset('users/'.$this->user->image) : null,
             
             'price'=>$this->price,
             'advantages'=>explode(',',$this->advantages),

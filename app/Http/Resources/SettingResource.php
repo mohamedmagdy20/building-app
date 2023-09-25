@@ -15,7 +15,7 @@ class SettingResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'splach_image'=>asset('public/uploads/splach/'.$this->value),
+            'splach_image'=>asset('splach/'.$this->value),
         ];
     }
 }

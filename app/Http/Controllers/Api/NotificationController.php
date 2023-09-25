@@ -10,11 +10,12 @@ use Illuminate\Http\Request;
 class NotificationController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
-        $data = Notification::where('user_id',auth()->user()->id)->latest()->simplePaginate(7);
+        $data = Notification::where('user_id',$this->auth($request->access_token)->id)->latest()->simplePaginate(7);
+        // return $data;
         return response()->json([
-            'data'=>new NotifcationResource($data),
+            'data'=>NotifcationResource::collection($data),
             'status'=>200,
             'message'=>'success'
         ]);

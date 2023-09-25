@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
-use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
 
 class NotifcationResource extends JsonResource
 {
@@ -15,11 +15,12 @@ class NotifcationResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+          return [
             'id'=>$this->id,
             'message'=>$this->message,
             'type'=>$this->type,
-            'date'=>Carbon::parse($this->created_at)->format('Y M D'),
+            'ads_id'=>$this->advertisment_id,
+            'date'=>Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
         ];
     }
 }

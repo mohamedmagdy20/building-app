@@ -11,6 +11,6 @@ class Area extends Model
     protected $fillable = [
         'name_en',
         'name_ar',  
-        'price'
+        'price',
     ];
 }

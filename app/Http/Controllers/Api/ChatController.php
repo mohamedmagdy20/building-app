@@ -8,11 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ChatRequest;
 use App\Http\Requests\MessageRequest;
 use App\Http\Resources\ChatResource;
-use App\Http\Resources\MessageResource;
 use App\Models\Chat;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\MessageResource;
+
 
 class ChatController extends Controller
 {
@@ -30,17 +31,19 @@ class ChatController extends Controller
         $data = $request->validated();
         try{
             DB::beginTransaction();
-            $isChatExist =  $this->chat->where('user_id',$this->auth($request->access_token)->id)->where('user_to_id',$data['user_to_id'])->first();
-            $isChatExistToAnother = $this->chat->where('user_id',$data['user_to_id'])->where('user_to_id',$this->auth($request->access_token)->id)->first();
+            // $isChatExist =  $this->chat->where('user_id',$this->auth($request->access_token)->id)->where('user_to_id',$data['user_to_id'])->first();
+                $isChatExist =  $this->chat->where('user_id',$this->auth($request->access_token)->id)->where('user_to_id',$data['user_to_id'])->first();
+                $isChatExistToAnother = $this->chat->where('user_id',$data['user_to_id'])->where('user_to_id',$this->auth($request->access_token)->id)->first();
+        
             if(!$isChatExist && !$isChatExistToAnother)
-            {                
+            {
                 $chat =  $this->chat->create(array_merge($data,['user_id'=>$this->auth($request->access_token)->id]) );
             }else{
                 return response()->json([
                 'status'=>403,
-                'data'=>null,
+                'chat_id'=>$isChatExist->id,
                 'message'=>'Chat Already Exist'
-                ],403);
+                ],200);
             }
                 
             
@@ -92,7 +95,7 @@ class ChatController extends Controller
     public function getMessagesChat(Request $request)
     {
         $id = $this->auth($request->access_token)->id;
-        $chat = $this->chat->where('user_id',$id)->orWhere('user_to_id',$id)->with('message')->get();
+        $chat = Chat::where('user_id',$id)->orWhere('user_to_id',$id)->with('message')->get();
         // return $chat;
         return response()->json([
             'data'=> ChatResource::collection($chat),
@@ -100,7 +103,7 @@ class ChatController extends Controller
             'status'=>200
         ]);
     }
-
+    
     public function getMessages(Request $request)
     {
         $data = $this->message->where('chat_id',$request->get('chat_id'))->get();

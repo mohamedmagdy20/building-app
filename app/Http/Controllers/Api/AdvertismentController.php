@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\NotificationEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdvertismentRequest;
 use App\Http\Resources\AdvertismentResource;
@@ -20,6 +19,11 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Shetabit\Visitor\Traits\Visitable;
+use Illuminate\Support\Facades\Auth;
+use App\Events\StartChatEvent;
+use App\Events\NotificationEvent;
+
+
 class AdvertismentController extends Controller
 {
     //
@@ -72,10 +76,10 @@ class AdvertismentController extends Controller
                 $this->modelImage->create(['advertisment_id'=>$ads->id,'image'=>$imageName]);
             }
 
+            DB::commit();
             // fire notification event 
             event(new NotificationEvent($ads));
 
-            DB::commit();
             return response()->json([
                 'status'=>200,
                 'message'=>'Advertisment Added',
@@ -88,7 +92,7 @@ class AdvertismentController extends Controller
                 'status' => 400,
                 'message'=> $e->getMessage(),
                 'data'=>null
-            ]);
+            ],400);
         }
     }
 
@@ -98,8 +102,15 @@ class AdvertismentController extends Controller
         if($data)
         {
             // insert in search log
-            $userSearch = $this->searchLogs->where('user_id',auth()->user()->id)->latest()->first();
-            $userSearch->update(['advertisment_id'=>$data->id]);
+            if(isset($request->access_token)  && $request->access_token != null)
+            {
+                $userSearch = $this->searchLogs->where('user_id',$this->auth($request->access_token)->id)->latest()->first();
+                if($userSearch)
+                {
+                    $userSearch->update(['advertisment_id'=>$data->id]);
+                }
+                
+            }
             // 
             
             switch ($data->category->type) {
@@ -138,10 +149,9 @@ class AdvertismentController extends Controller
             {
                 $resources = new ArchitectureResource($data);   
             }
-          
+         
             $request->visitor()->setVisitor($data)->visit($data);
-
-            return response()->json(
+           return response()->json(
                 [
                     'status'=>200,
                     'message'=>'Success',
@@ -165,16 +175,20 @@ class AdvertismentController extends Controller
         return response()->json([
             'status'=>200,
             'message'=>'Success',
-            'data'=>AdvertismentResource::collection($this->model->special()->where('abroved',true)->latest()->get())
+            'data'=>AdvertismentResource::collection($this->model->special()->where('is_expire',0)->where('abroved',true)->latest()->get())
         ], 200);
     }
 
     public function index(Request $request)
     {
-        $data = $this->model->orderByRaw("FIELD(ads_type, 'fixed', 'normal')")->filter($request->all())->where('abroved',true)->latest()->simplePaginate(7);
-        if($request->q)
+        $data = $this->model->orderByRaw("FIELD(ads_type, 'fixed', 'normal')")->filter($request->all())->where('abroved',true)->where('is_expire',0)->where('ads_type','!=','special')->where('ads_type','!=','draft')->latest()->simplePaginate(7);
+        if(isset($request->access_token) && $request->access_token != null)
         {
-            SearchLogs::create(['keyword'=>$request->q,'user_id'=>auth()->user()->id]);
+            if($request->q)
+            {
+                SearchLogs::create(['keyword'=>$request->q,'user_id'=>$this->auth($request->access_token)->id]);
+            }
+            
         }
         return response()->json([
             'status'=>200,
@@ -187,7 +201,7 @@ class AdvertismentController extends Controller
     {
         $data = $request->validated();
         $ads = $this->model->findOrFail($id);
-        $ads->update($data);
+        $ads->update(array_merge($data,['abroved'=>false]));
         $countofExist = count($ads->adsImage);
         if($request->hasFile('image_1'))
         {
@@ -275,7 +289,7 @@ class AdvertismentController extends Controller
 
     public function favoriteAds(Request $request)
     {
-        $IDs = $this->adsFavorite->where('user_id',$this->auth($request->access_token))->pluck('advertisment_id');
+        $IDs = $this->adsFavorite->where('user_id',$this->auth($request->access_token)->id)->pluck('advertisment_id');
         $data =  $this->model->whereIn('id',$IDs)->simplePaginate(7);
         return response()->json([
             'status'=>200,
@@ -288,7 +302,7 @@ class AdvertismentController extends Controller
     public function userAds(Request $request)
     {
         $user = $this->auth($request->access_token);
-        $data = $this->model->filter($request->all())->where('user_id',$user->id)->where('abroved',true)->get();
+        $data = $this->model->filter($request->all())->where('user_id',$user->id)->where('abroved',true)->latest()->simplePaginate(7);;
         return response()->json([
             'status'=>200,
             'message'=>'Success',
@@ -306,7 +320,7 @@ class AdvertismentController extends Controller
                 if($item->image != null)
                 {
                     $this->deleteFile($item->image,config('filepath.ADS_PATH'));
-                    $data->delete();
+                    $item->delete();
                 }
             }
             return response()->json([

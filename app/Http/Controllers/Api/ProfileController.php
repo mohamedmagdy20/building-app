@@ -66,7 +66,7 @@ class ProfileController extends Controller
             ]
             );
     }
-
+    
     public function userPoint(Request $request)
     {
         $user = $this->model->find($this->auth($request->access_token)->id);
@@ -75,6 +75,27 @@ class ProfileController extends Controller
             'status'=>200,
             'message'=>'success'
         ]);
+    }
+    
+    public function deleteAccount(Request $request)
+    {
+        $user = $this->model->find($this->auth($request->access_token)->id);
+        if($user)
+        {
+            $user->forceDelete();
+            return response()->json([
+               'data'=>null,
+               'status'=>200,
+               'message'=>'Account Deleted'
+            ]);
+        }else{
+            return response()->json([
+               'data'=>null,
+               'status'=>404,
+               'message'=>'User Not Found'
+            ],404);
+        }
+    
     }
     
 }

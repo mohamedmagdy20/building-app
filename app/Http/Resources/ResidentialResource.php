@@ -34,6 +34,8 @@ class ResidentialResource extends JsonResource
             'advantages'=>explode(',',$this->advantages),
             'links'=>$this->links,
             'phone'=>$this->user->phone,
+            'user_id'=>$this->user->id,
+            'profile_image'=>$this->user->image ? asset('users/'.$this->user->image) : null,
             
             'description'=>$this->description,
             'num_of_rooms'=>$this->num_of_rooms,

@@ -37,6 +37,8 @@ class LandResource extends JsonResource
             'space'=>$this->space,          
             'number'=>$this->number,
             'phone'=>$this->user->phone,
+            'user_id'=>$this->user->id,
+            'profile_image'=>$this->user->image ? asset('users/'.$this->user->image) : null,
             
             'type'=>$this->type,
             'ads_type'=>$this->ads_type,

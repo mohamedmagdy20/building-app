@@ -42,6 +42,9 @@ class ArchitectureResource extends JsonResource
             'ads_type'=>$this->ads_type,
             'abroved'=>$this->abroved,
             'phone'=>$this->user->phone,
+            'user_id'=>$this->user->id,
+            'profile_image'=>$this->user->image ? asset('users/'.$this->user->image) : null,
+            
             'images'=>AdvertismantImages::collection($this->adsImage),
             'date_created'=>Carbon::parse($this->updated_at)->format('M d Y'),
             'views'=>$visitCount

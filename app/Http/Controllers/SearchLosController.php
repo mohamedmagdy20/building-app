@@ -23,7 +23,7 @@ class SearchLosController extends Controller
     {
         $data = $this->model->with('user')->with('advertisment')->where('advertisment_id','!=',null)->latest();
         return DataTables::of($data)->editColumn('advertisment_id',function($data){
-            return optional($data->advertisement)->title;
+            return optional($data->advertisment)->title;
     })->make(true);
     }
 }
