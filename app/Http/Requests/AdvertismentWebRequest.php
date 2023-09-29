@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AdvertismentRequest extends FormRequest
+class AdvertismentWebRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,10 +28,11 @@ class AdvertismentRequest extends FormRequest
         return [
             'title'=>'required|string',
             'category_id'=>'required',
+            'user_id'=>'required',
             'area_id'=>'required',
             'price'=>'required',
             'advantages'=>'nullable',
-            'images'=>'nullable|file',
+            'images'=>'nullable|array',
             'links'=>'required|url',
             'description'=>'required|string',
             'space'=>'required',
@@ -43,13 +44,7 @@ class AdvertismentRequest extends FormRequest
             'num_of_apartments'=>'nullable',
             'num_of_floor'=>'nullable',
             'type'=>'required|string',
-            'ads_type'=>'required',
-            'access_token'=>'required',
-            'image_1'=>'nullable|file',
-            'image_2'=>'nullable|file',
-            'image_3'=>'nullable|file',
-            'image_4'=>'nullable|file',
-            'image_5'=>'nullable|file',
+            'ads_type'=>'nullable',
         ];
     }
 
@@ -61,6 +56,4 @@ class AdvertismentRequest extends FormRequest
             'data'=> $validator->errors()
         ],403));
     }
-
 }
- 

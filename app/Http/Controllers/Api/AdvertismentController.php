@@ -22,7 +22,7 @@ use Shetabit\Visitor\Traits\Visitable;
 use Illuminate\Support\Facades\Auth;
 use App\Events\StartChatEvent;
 use App\Events\NotificationEvent;
-
+use App\Http\Requests\AdvertismentWebRequest;
 
 class AdvertismentController extends Controller
 {
@@ -45,8 +45,23 @@ class AdvertismentController extends Controller
         try{
             DB::beginTransaction();
 
+            // if(is_array($data['advantages']))
+            // {
+            //     $data['advantages'] = implode(',',$data['advantages']); 
+            // }
+
             $ads =$this->model->create(array_merge($data,['user_id'=>$this->auth($request->access_token)->id]));
             
+            // if($request->hasFile('images'))
+            // {
+            //     foreach($data['images'] as $image)
+            //     {
+            //         $imageName = $this->saveFile($image,config('filepath.ADS_PATH'));
+            //         $this->modelImage->create(['advertisment_id'=>$ads->id,'image'=>$imageName]);
+            //     }
+            // }
+
+
             if($request->hasFile('image_1'))
             {
                 $imageName = $this->saveFile($request->file('image_1'),config('filepath.ADS_PATH'));
@@ -94,6 +109,42 @@ class AdvertismentController extends Controller
                 'data'=>null
             ],400);
         }
+    }
+
+
+    public function storeWeb(AdvertismentWebRequest $request)
+    {
+        $data = $request->validated();
+        if(is_array($data['advantages']))
+        {
+            $data['advantages'] = implode(',',$data['advantages']);
+        }
+        try{
+            $ads =$this->model->create($data);
+            if($request->hasFile('images'))
+            {
+                foreach($data['images'] as $image)
+                {
+                    $imageName = $this->saveFile($image,config('filepath.ADS_PATH'));
+                    $this->modelImage->create(['advertisment_id'=>$ads->id,'image'=>$imageName]);
+                }
+            } 
+            event(new NotificationEvent($ads));
+            return response()->json([
+                'status'=>200,
+                'message'=>'Advertisment Added',
+                'data'=> new AdvertismentResource($ads)
+            ]);
+
+        }catch(Exception $e){
+            return response()->json([
+                'status' => 400,
+                'message'=> $e->getMessage(),
+                'data'=>null
+            ],400);
+        }
+        
+
     }
 
     public function show(Request $request)

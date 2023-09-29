@@ -85,6 +85,9 @@ Route::middleware([EnsureTokenIsValid::class])->group(function () {
 
     Route::post('calc',[CalculationController::class,'calculate']);
     Route::get('get-specifications',[SpecficationController::class,'getData']);
+
+    // Store Ads From Website 
+    Route::post('advertisment/web/store',[AdvertismentController::class,'storeWeb']);
     /** -----------------End Of Routes-------------------------------------- **/
 
 });
