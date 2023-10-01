@@ -45,7 +45,7 @@ class ApiAuthController extends Controller
 
             // send SMS //
             $message =  'Your Otp is'.$user->otp;
-            $sms = SMS::sendSms($user->phone,2,$message);
+            $sms = SMS::sendSms($user->phone,$message);
 
             if($sms == true)
             {
@@ -180,12 +180,22 @@ class ApiAuthController extends Controller
                 'otp'=>$otp,
             ]);
             $message =  'Your Otp is'.$user->otp;
-            SMS::sendSms($user->phone,1,$message);
-            return response()->json([
-                'status'  => 200,
-                'message' => 'SMS Sent',
-                'data'   => NULL
-            ],200);    
+            $sms = SMS::sendSms($user->phone,$message);
+            if($sms == true)
+            {
+                return response()->json([
+                    'status'  => 200,
+                    'message' => 'SMS Sent',
+                    'data'   => NULL
+                ],200);    
+            }else{
+                return response()->json([
+                    'status'      => 500,
+                    'message'     => $sms,
+                    'access_token'=> null
+                 ],500);       
+            }
+           
         }else{
             return response()->json([
                 'status'  => 404,

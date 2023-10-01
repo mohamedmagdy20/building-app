@@ -2,26 +2,28 @@
 
 namespace App\Http\Utils;
 
+use Exception;
 use Illuminate\Support\Facades\Http;
-
+use Twilio\Rest\Client;
+  
 class SMS{
 
-    public static function sendSms($mobile, $lang,$message)
+    public static function sendSms($mobile,$message)
     {
-        $request = Http::post('https://www.kwtsms.com/API/send/',
-        [
-            'username'=>config('app.SMS_USERNAME'),
-            'password'=>config('app.SMS_PASSWORD'),
-            'sender'=>config('app.SMS_SENDER'),
-            'mobile'=>$mobile,
-            'lang'=>$lang,
-            'message'=>$message
-        ]);
-        if($request->ok())
-        {
-            return true;
-        }else{
-            return $request->body();
+        try {
+  
+            $account_sid = config("app.TWILIO_SID");
+            $auth_token = config("app.TWILIO_TOKEN");
+            $twilio_number = config("app.TWILIO_FROM");
+            $client = new Client($account_sid, $auth_token);
+            $client->messages->create($mobile, [
+                'from' => $twilio_number, 
+                'body' => $message]);
+            return true;  
+  
+        } catch (Exception $e) {
+            // dd("Error: ". $e->getMessage());
+            return $e->getMessage();
         }
     }
 }

@@ -15,6 +15,7 @@
         "pusher/pusher-php-server": "^7.2",
         "shetabit/visitor": "^4.1",
         "spatie/laravel-permission": "^5.10",
+        "twilio/sdk": "^7.11",
         "yajra/laravel-datatables-oracle": "^9.21"
     },
     "require-dev": {
