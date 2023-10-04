@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\User\UserRequest;
 use App\Http\Resources\PlanResource;
 use App\Http\Resources\UserResource;
@@ -10,6 +11,7 @@ use App\Models\Plan;
 use App\Models\User;
 use App\Traits\FilesTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -96,6 +98,29 @@ class ProfileController extends Controller
             ],404);
         }
     
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        $data = $request->validated();
+        $user = $this->model->findOrFail($this->auth($request->access_token)->id);
+        if(Hash::check($user->password,$data['old_password']))
+        {
+            $user->update([
+                'password'=>Hash::make($data['password'])
+            ]);
+            return response()->json([
+                'data'=>NULL,
+                'status'=>200,
+                'message'=>'Password Changed'
+            ]);
+        }else{
+            return response()->json([
+                'data'=>NULL,
+                'status'=>400,
+                'message'=>'Invaild Old Password'
+            ],400);
+        }
     }
     
 }

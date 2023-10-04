@@ -8,27 +8,35 @@ use App\Traits\FilesTrait;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\ForgetPasswordRequest;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Shetabit\Visitor\Traits\Visitable;
 class ApiAuthController extends Controller
 {
     use FilesTrait;
-    public function handleRegister(Request $request)
+    public function handleRegister(RegisterRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name'         => 'required|string|max:100',
-            'email'        => 'email|unique:users,email|max:100',
-            'password'     => 'required|confirmed|string|max:50|min:5',
-            'phone'        => 'required|string|max:100',
-            'type'=>'required',
-            'image'=>'file'
-        ]);
-        if ($validator->fails()) {
-            $errors = $validator->errors();
-            return response()->json($errors);
-        }
+        $data = $request->validated();
+
+        // $validator = Validator::make($request->all(), [
+        //     'name'         => 'required|string|max:100',
+        //     'email'        => 'email|unique:users,email|max:100',
+        //     'password'     => 'required|confirmed|string|max:50|min:5',
+        //     'phone'        => 'required|regex:/^\+965\d{6,}$/',
+        //     'type'=>'required',
+        //     'image'=>'file'
+        // ]);
+        // if ($validator->fails()) {
+        //     $errors = $validator->errors();
+        //     return response()->json($errors,400);
+        // }
+
         $is_user = Auth::attempt(['phone' => $request->phone, 'password' => $request->password]);
         if(! $is_user)
         {
@@ -44,23 +52,25 @@ class ApiAuthController extends Controller
             $user = User::create($data);
 
             // send SMS //
-            $message =  'Your Otp is'.$user->otp;
-            $sms = SMS::sendSms($user->phone,$message);
-
-            if($sms == true)
-            {
+            try{
+                $message =  'Your Otp is'.$user->otp;
+                $sms = SMS::sendSms($user->phone,$message); 
                 return response()->json([
-                    'status'      => 200,
-                    'message'     => $request->name . ' ' .'added succesfully and not ',
-                    'access_token'=> $user->access_token
-                 ]);   
-            }else{
+                    'status'  => 200,
+                    'message' => 'SMS Sent',
+                    'data'   => NULL
+                ],200);
+            }catch(Exception $e )
+            {
+                $user->delete();
                 return response()->json([
                     'status'      => 500,
-                    'message'     => $sms,
+                    'message'     => $e->getMessage(),
                     'access_token'=> null
-                 ],500);   
+                 ],500);  
+
             }
+            
         }
         else{
             $user = User::where('phone',$request->phone)->first();
@@ -73,10 +83,10 @@ class ApiAuthController extends Controller
                ],400);
             }else{
                 return response()->json([
-                    'status'  => 403,
+                    'status'  => 400,
                     'message' => "Account Already exsit",
                     'data'    => NULL
-               ],403);
+               ],400);
             }
             
         }
@@ -154,19 +164,24 @@ class ApiAuthController extends Controller
 
     public function verify(Request $request)
     {
-        $user = User::where('otp',$request)->first();
+        $user = User::where('otp',$request->otp)->first();
         if($user)
         {
             $user->update([
                 'is_verified'=>true,
                 'otp'=>null
             ]);
+            return response()->json([
+                'status'  => 200,
+                'message' => 'Account Verified',
+                'data'   => new UserResource($user)
+            ],200);  
         }else{
             return response()->json([
-                'status'  => 403,
+                'status'  => 400,
                 'message' => 'Invaild Otp',
                 'data'   => NULL
-            ],403);    
+            ],400);    
         }
     }
 
@@ -179,21 +194,23 @@ class ApiAuthController extends Controller
             $user->update([
                 'otp'=>$otp,
             ]);
-            $message =  'Your Otp is'.$user->otp;
-            $sms = SMS::sendSms($user->phone,$message);
-            if($sms == true)
-            {
+            try{
+                $message =  'Your Otp is'.$user->otp;
+                $sms = SMS::sendSms($user->phone,$message); 
                 return response()->json([
                     'status'  => 200,
                     'message' => 'SMS Sent',
                     'data'   => NULL
-                ],200);    
-            }else{
+                ],200);
+            }catch(Exception $e )
+            {
+                
                 return response()->json([
                     'status'      => 500,
-                    'message'     => $sms,
+                    'message'     => $e->getMessage(),
                     'access_token'=> null
-                 ],500);       
+                 ],500);  
+                
             }
            
         }else{
@@ -205,6 +222,19 @@ class ApiAuthController extends Controller
         }
     }
 
+    public function changePassword(ForgetPasswordRequest $request)
+    {
+        $data = $request->validated();
+        $user = User::findOrFail($data['id']);
+        $user->update([
+            'password'=>Hash::make($data['password'])
+        ]);
+        return response()->json([
+            'status'  => 200,
+            'message' => 'Password Changed Successfuly',
+            'data'   => NULL
+        ]);    
+    }
     private function generateOtp()
     {
         $otp = rand(10000,99999);

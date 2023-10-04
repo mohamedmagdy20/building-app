@@ -14,7 +14,7 @@
     @break
     @case('image')
         <div class="py-1">
-            <img src="{{$data->image != null ? asset('uploads/users/'.$data->image) : asset('assets/images/users/avatar-1.jpg')}}"  class="img-thumbnail w-75  rounded-1" alt="{{$data->name}}">
+            <img src="{{$data->image != null ? asset('uploads/users/'.$data->image) : asset('assets/images/users/person.jpg')}}"  class="img-thumbnail w-75  rounded-1" alt="{{$data->name}}">
         </div>
     @break
     @case('points')

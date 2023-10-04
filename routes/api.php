@@ -29,6 +29,9 @@ use App\Http\Middleware\EnsureTokenIsValid;
 // login/register
 Route::post('/handle-register', [ApiAuthController::class,'handleRegister']);
 Route::post('/handle-login', [ApiAuthController::class,'handleLogin']);
+Route::post('check-Otp',[ApiAuthController::class,'verify']);
+Route::post('resend',[ApiAuthController::class,'resend']);
+Route::post('forget-password',[ApiAuthController::class,'changePassword']);
 Route::get('plan',[ProfileController::class,'index']);
 Route::get('category',[CategoryController::class,'index']);
 Route::get('city',[CategoryController::class,'city']);
@@ -50,6 +53,8 @@ Route::middleware([EnsureTokenIsValid::class])->group(function () {
         Route::get('/','profile');
         Route::post('update','update');
         Route::get('points','userPoint');
+        Route::post('delete-account','deleteAccount');
+        Route::post('change-password','changePassword');
     });
 
     Route::group(['controller'=>AdvertismentController::class,'prefix'=>'advertisment'],function(){

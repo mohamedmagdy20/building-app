@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Traits\FilesTrait;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
     //
+    use FilesTrait;
     protected $model;
     public function __construct(User $model )
     {
@@ -70,7 +72,25 @@ class UserController extends Controller
 
     public function delete($id)
     {
-        $data = $this->model->findOrFail($id)->delete();
+        $user = $this->model->withTrashed()->findOrFail($id);
+        if($user->image != null)
+        {
+            $this->deleteFile($user->image,config('filepath.USER_PATH'));
+        }
+        $user->forceDelete();
         return redirect()->back()->with('success','User Deleted');
+       
     }
+
+    // public function forceDelete($id)
+    // {
+    //     $user = $this->model->withTrashed()->findOrFail($id);
+    //     if($user->image != null)
+    //     {
+    //         $this->deleteFile($user->image,config('filepath.USER_PATH'));
+    //     }
+    //     $user->forceDelete();
+    //     return redirect()->back()->with('success','User Deleted');
+        
+    // }
 }

@@ -183,3 +183,21 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
         Route::get('/delete/{id}','delete')->middleware('permission:Delete_Site_Specfications')->name($prefix.'delete');
     });
 });
+Route::get('test/',function(){
+        $mobile = "+201066018340";
+        $account_sid = config("app.TWILIO_SID");
+        $auth_token = config("app.TWILIO_TOKEN");
+        $twilio_number = config("app.TWILIO_FROM");
+        $client = new Client($account_sid, $auth_token);
+        $status =  $client->messages->create($mobile, [
+            'from' => $twilio_number, 
+            'body' => 'Hii']);
+        return true;  
+        if($status->status == 400)
+        {
+            return 'error';
+        }else{
+            return "fone";
+        }
+
+});
