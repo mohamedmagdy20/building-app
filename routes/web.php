@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdvertiseController;
 use App\Http\Controllers\Admin\AdvertismentController;
+use App\Http\Controllers\Admin\AdvertismentTypeController;
 use App\Http\Controllers\Admin\AreaController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -182,22 +183,11 @@ Route::group(['middleware'=>'auth:admin','prefix'=>'admin'],function(){
         Route::post('/update/{id}','update')->middleware('permission:Edit_Site_Specfications')->name($prefix.'update');
         Route::get('/delete/{id}','delete')->middleware('permission:Delete_Site_Specfications')->name($prefix.'delete');
     });
-});
-Route::get('test/',function(){
-        $mobile = "+201066018340";
-        $account_sid = config("app.TWILIO_SID");
-        $auth_token = config("app.TWILIO_TOKEN");
-        $twilio_number = config("app.TWILIO_FROM");
-        $client = new Client($account_sid, $auth_token);
-        $status =  $client->messages->create($mobile, [
-            'from' => $twilio_number, 
-            'body' => 'Hii']);
-        return true;  
-        if($status->status == 400)
-        {
-            return 'error';
-        }else{
-            return "fone";
-        }
 
+    Route::group(['controller'=>AdvertismentTypeController::class,'prefix'=>'ads-type'],function(){
+        $prefix = 'admin.ads_type.';
+        Route::get('/','index')->middleware('permission:Show_Calculation')->name($prefix.'index');
+        Route::get('/update','updatePoint')->middleware('permission:Update_Calculation')->name($prefix.'update-point');
+      });
 });
+

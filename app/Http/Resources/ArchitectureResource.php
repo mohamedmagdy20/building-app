@@ -44,8 +44,7 @@ class ArchitectureResource extends JsonResource
             'phone'=>$this->user->phone,
             'user_id'=>$this->user->id,
             'profile_image'=>$this->user->image ? asset('users/'.$this->user->image) : null,
-            
-            'images'=>AdvertismantImages::collection($this->adsImage),
+            'images'=>count(AdvertismantImages::collection($this->adsImage)) > 0 ? AdvertismantImages::collection($this->adsImage) : asset('assets/images/default.jpg') ,
             'date_created'=>Carbon::parse($this->updated_at)->format('M d Y'),
             'views'=>$visitCount
          ];

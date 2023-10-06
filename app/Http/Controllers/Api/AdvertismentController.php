@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Events\StartChatEvent;
 use App\Events\NotificationEvent;
 use App\Http\Requests\AdvertismentWebRequest;
+use Illuminate\Support\Facades\Validator;
 
 class AdvertismentController extends Controller
 {
@@ -387,5 +388,40 @@ class AdvertismentController extends Controller
                 'status'=>400                
             ],400);
         }
+    }
+
+    public function deleteFavorite(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'access_token'=>'required',
+            'advertisment_id'=>'required'
+        ]);
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return response()->json(
+                [
+                    'status'=>403,
+                    'message'=>'Validation error',
+                    'data'=>$errors
+                ],403);
+        }
+        $data = $this->adsFavorite->where('user_id',$this->auth($request->access_token)->id)->get()
+        ->where('advertisment_id',$request->advertisment_id);
+        if($data)
+        {
+            $data->delete();
+        }else{
+            return response()->json(
+                [
+                    'status'=>404,
+                    'message'=>'Data Not Found',
+                    'data'=>null
+                ],404);
+        }
+        return response()->json([
+            'status'=>200,
+            'message'=>'Success',
+            'data'=>null
+        ]);
     }
 }

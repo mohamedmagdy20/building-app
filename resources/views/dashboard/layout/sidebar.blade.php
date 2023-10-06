@@ -140,6 +140,15 @@
                 @endif
 
 
+                @if (auth()->user()->hasPermissionTo('Show_Calculation'))
+                <li>
+                    <a href="{{route('admin.ads_type.index')}}" class=" waves-effect">
+                        <i class="ri-calculator-line"></i>
+                        <span>Advertisment Type</span>
+                    </a>
+                </li>
+                @endif
+
                 @if(auth()->user()->hasPermissionTo('Show_Settings'))
                 <li>
                     <a href="{{route('admin.setting.index')}}" class=" waves-effect">

@@ -53,6 +53,10 @@ class AdvertismentController extends Controller
             return view('dashboard.advertisments.action',['type'=>'edit_type','data'=>$data]);  
 
         })
+        ->editColumn('user_id',function($data){
+            return view('dashboard.advertisments.action',['type'=>'user','data'=>$data]);  
+
+        })
         ->make(true);
     }
 

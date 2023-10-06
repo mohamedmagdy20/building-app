@@ -27,6 +27,9 @@
             <span class="btn btn-sm btn-dark">{{$data->ads_type}}</span>
         @endif
     @break
+    @case('user')
+        <a href="{{route('admin.user.show',$data->user_id)}}">{{$data->user->name}}</a>
+    @break
     @case('abroved')
         @if($data->abroved == true)
             <span class="btn btn-sm btn-success">Abroved</span>

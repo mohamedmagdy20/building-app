@@ -64,6 +64,7 @@ Route::middleware([EnsureTokenIsValid::class])->group(function () {
         Route::post('update/{id}','update');
         Route::get('profile','userAds');
         Route::post('delete-image/{id}','deleteImage');
+        Route::delete('delete-favourite','deleteFavorite');
     });
 
     Route::get('advertisment/favourite',[AdvertismentController::class,'favoriteAds']);

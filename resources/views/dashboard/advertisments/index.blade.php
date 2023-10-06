@@ -95,7 +95,7 @@ function DataTables() {
             },
         },
         columns: [{
-                data: 'image'
+                data: 'user_id'
             },
             {
                 data: 'title'
