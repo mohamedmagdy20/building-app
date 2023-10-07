@@ -151,6 +151,7 @@ class AdvertismentController extends Controller
     public function show(Request $request)
     {
         $data = $this->model->with('category')->find($request->get('id'));
+        $data['authticated_token'] = $request->access_token != null ? $request->access_token  : null;
         if($data)
         {
             // insert in search log

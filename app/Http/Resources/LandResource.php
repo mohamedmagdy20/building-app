@@ -45,6 +45,7 @@ class LandResource extends JsonResource
             'abroved'=>$this->abroved,
             'images'=>AdvertismantImages::collection($this->adsImage),
             'date_created'=>Carbon::parse($this->update_at)->format('M d Y'),
+            'is_favourite'=>$this->isFavoriteByUser(auth()->user()->id),
             'views'=> $visitCount
         ];
         

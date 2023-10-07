@@ -46,6 +46,8 @@ class ArchitectureResource extends JsonResource
             'profile_image'=>$this->user->image ? asset('users/'.$this->user->image) : null,
             'images'=>count(AdvertismantImages::collection($this->adsImage)) > 0 ? AdvertismantImages::collection($this->adsImage) : asset('assets/images/default.jpg') ,
             'date_created'=>Carbon::parse($this->updated_at)->format('M d Y'),
+            'is_favourite'=>$this->isFavoriteByUser(auth()->user()->id),
+
             'views'=>$visitCount
          ];
     }

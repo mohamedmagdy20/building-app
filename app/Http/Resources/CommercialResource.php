@@ -47,6 +47,8 @@ class CommercialResource extends JsonResource
             'date_created'=>Carbon::parse($this->updated_at)->format('M d Y'),
 
             'images'=>AdvertismantImages::collection($this->adsImage),
+            'is_favourite'=>$this->isFavoriteByUser(auth()->user()->id),
+
             'views'=>$visitCount
     
         ];

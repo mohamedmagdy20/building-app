@@ -45,6 +45,16 @@ class Advertisment extends Model
         return $this->belongsTo(User::class,'user_id');
     }
 
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class,'ads_favorites','advertisment_id','user_id');
+    }
+
+    public function isFavoriteByUser($userID){
+        return $this->users()->where('user_id',$userID)->exists();
+    }
+
     public function area()
     {
         return $this->belongsTo(Area::class,'area_id');
